@@ -1,0 +1,5 @@
+{
+  "printWidth": 80
+
+}
+// this file make all team use same configuration of prettier like => indent & wrap....
