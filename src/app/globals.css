@@ -16,6 +16,18 @@ ul li a {
   background-color: #F82BA9;
 }
 
+.color-dark{
+  color:#160E4B
+}
+
+.bg-dark{
+  background-color: #160E4B;
+}
+
+body {
+  height: 50000px;
+}
+
 
 
 @layer base {
