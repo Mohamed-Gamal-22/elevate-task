@@ -9,7 +9,7 @@ import Image from 'next/image'
 
 export default function SecondNav() {
   return <>
-        <div className="allItems my-4 flex justify-between">
+        <div className="allItems my-4 flex justify-between container w-[80%] mx-auto">
             <div className="item flex items-center gap-5">
                 <div className={`${style.icon} p-5 rounded-[45px]`}>
                     <Image src={icon4} alt='img' width={50} height={50}/>

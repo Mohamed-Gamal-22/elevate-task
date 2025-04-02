@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 
 export default function AboutusSection() {
   return <>
-    <div className="flex my-20">
+    <div className="flex my-20 container w-[80%] mx-auto">
         <div className="w-1/2 flex">
             <div className="left w-1/2 p-2">
                 <Image src={rectangle3} alt="rectangle3" className='w-full'/>
@@ -21,7 +21,7 @@ export default function AboutusSection() {
         </div>
         <div className="w-1/2">
             <h3 className={`${style.letter} color-rose font-bold`}>About Us</h3>
-            <h2 className='my-6 font-bold text-3xl'>We Provide Best And Quality <span className='color-rose'>Gifts <br />Box</span> Product For You</h2>
+            <h2 className='my-6 font-bold text-[30px]'>We Provide Best And Quality <span className='color-rose'>Gifts <br />Box</span> Product For You</h2>
             <p className='text-[#757F95]'>Recusandae tempora aut laborum molestias veniam. A commodi sequi accusantium ullam cupiditate. Neque quidem qui et autem dolor dicta necessitatibus ut ad.</p>
             <Button className='text-white py-[10px] px-[20px] my-8'>Discover More <ArrowRight /></Button>
 

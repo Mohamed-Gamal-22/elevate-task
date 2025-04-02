@@ -19,7 +19,7 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <Navbar />
-        <div className="container w-[80%] mx-auto">
+        <div className="">
           {children}
         </div>
         <Footer />

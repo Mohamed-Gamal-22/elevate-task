@@ -9,7 +9,7 @@ import img2 from "../../../public/assets/images/03.png.png"
 
 export default function PremiumGifts() {
   return <>
-    <div className="parent flex">
+    <div className="parent flex container w-[80%] mx-auto">
         <div className="first w-1/4 p-3">
             <h3 className={`color-rose font-bold ${style.letter} mb-7`}>Premium Gifts</h3>
             <h2 className='font-bold text-2xl my-4'>Best <span className='color-rose'>Seller Gifts</span> And Products</h2>

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 
 export default function FirstGifts() {
   return <>
-    <div className="parent flex justify-between my-6">
+    <div className="parent flex justify-between my-6 container w-[80%] mx-auto">
         <div className="gift w-1/3 p-3 relative">
             <Image src={gift2} alt="gift1" className='w-full rounded-2xl'/>
             <div className="content absolute inset-0 flex flex-col justify-center items-end pe-8">

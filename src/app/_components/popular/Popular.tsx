@@ -8,8 +8,8 @@ import { BriefcaseBusiness, Eye, Heart, Star } from 'lucide-react'
 
 export default function Popular() {
   return <>
-    <h2 className='text-3xl font-bold mt-12 mb-8'>Popular Items</h2>
-    <div className="flex flex-wrap p-3 products gap-y-8">
+    <h2 className='text-3xl font-bold mt-12 mb-8 '>Popular Items</h2>
+    <div className="flex flex-wrap p-3 products gap-y-8 container w-[80%] mx-auto">
 
         <div className='w-1/4 relative p-3'>
             <div className="main relative">

@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 export default function FirstSlider() {
   return <>
-    <div className="parent flex justify-between my-6">
+    <div className="parent flex justify-between my-6 container w-[80%] mx-auto">
         <div className="left w-1/4 p-2">
             <Image src={bannerOne} alt="banner" className='rounded-2xl w-full h-[440px]'/>
         </div>

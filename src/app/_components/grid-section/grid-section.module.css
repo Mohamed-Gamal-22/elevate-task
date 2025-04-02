@@ -1,0 +1,40 @@
+.container {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 24px 24px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "one one one one two two two two three three three three"
+      "four four four four four four four four five five five five";
+  }
+  
+  .one { grid-area: one; }
+  
+  .two { grid-area: two; }
+  
+  .three { grid-area: three; }
+  
+  .four { grid-area: four; }
+  
+  .five { grid-area: five; }
+  
+  .letter {
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .test {
+    position: relative;
+    width: fit-content;
+    margin: auto;
+  }
+
+  .test::after{
+    content: "";
+    position :absolute;
+    width: 140px;
+    height: 2px;
+    background-color: #F82BA9;
+    bottom:0;
+    left: 0;
+  }
