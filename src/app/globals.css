@@ -8,7 +8,7 @@ ul li a {
     color: #160E4B;
 }
 
-.color-rose{
+.color-rose, .nav-active{
   color:#F82BA9
 }
 
@@ -28,6 +28,14 @@ body {
   height: 50000px;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: #F82BA9;
+}
+
+textarea {
+  resize: none;
+}
 
 
 @layer base {

@@ -33,7 +33,7 @@ export default function Footer() {
 
       <form className='my-10 flex items-center w-fit mx-auto relative'>
         <Input className='w-[400px]' placeholder='Enter Your Email'/>
-        <Button className='text-white py-[10px] px-[20px] rounded-[30px] absolute top-0 end-[-50px]'>Discover More <ArrowRight /></Button>
+        <Button className='text-white py-[10px] px-[20px] rounded-[30px] absolute top-0 end-[-50px]'>Supscribe <ArrowRight /></Button>
       </form>
     </div>
   </>

@@ -10,17 +10,16 @@ import img6 from "../../../public/assets/images/image 41.png";
 
 export default function PreFooter() {
   return <>
-    <div className='container w-[80%] mx-auto'>
-    <h2 className={`text-center font-bold text-[30px] my-12 ${style.test}`}>Trusted by over <span className='color-rose'>4.5k+ </span>companies</h2>
-    <div className="images my-7 flex justify-between">
-        <Image src={img1} alt="img1"/>
-        <Image src={img2} alt="img2"/>
-        <Image src={img3} alt="img3"/>
-        <Image src={img4} alt="img4"/>
-        <Image src={img5} alt="img5"/>
-        <Image src={img6} alt="img6"/>
-    </div>
-
+    <div className='container w-[80%] my-40 mx-auto'>
+      <h2 className={`text-center font-bold text-[30px] my-12 ${style.test}`}>Trusted by over <span className='color-rose'>4.5k+ </span>companies</h2>
+      <div className="images my-7 flex justify-between">
+          <Image src={img1} alt="img1"/>
+          <Image src={img2} alt="img2"/>
+          <Image src={img3} alt="img3"/>
+          <Image src={img4} alt="img4"/>
+          <Image src={img5} alt="img5"/>
+          <Image src={img6} alt="img6"/>
+      </div>
     </div>
   </>
 }

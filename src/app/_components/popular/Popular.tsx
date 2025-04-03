@@ -5,12 +5,16 @@ import img2 from "../../../public/assets/images/image 24.png";
 import img3 from "../../../public/assets/images/image 25.png";
 import img4 from "../../../public/assets/images/mug.png";
 import { BriefcaseBusiness, Eye, Heart, Star } from 'lucide-react'
+import style from "./popular.module.css"
 
 export default function Popular() {
   return <>
-    <h2 className='text-3xl font-bold mt-12 mb-8 '>Popular Items</h2>
-    <div className="flex flex-wrap p-3 products gap-y-8 container w-[80%] mx-auto">
 
+    <div className="container w-[80%] mx-auto mt-20">
+        <h2 className={`${style.test} text-3xl font-bold mt-12 mb-8`}>Popular Items</h2>
+    </div>
+    
+    <div className="flex flex-wrap p-3 products gap-y-8 container w-[80%] mx-auto">
         <div className='w-1/4 relative p-3'>
             <div className="main relative">
                 <Image src={img3} alt="watch" className='w-full h-[220px] object-contain'/>
