@@ -3,6 +3,7 @@ import FirstGifts from './_components/first-gifts/FirstGifts';
 import FirstSlider from './_components/first-slider/FirstSlider';
 import GridSextion from './_components/grid-section/GridSextion';
 import Popular from './_components/popular/Popular';
+import PreFooter from './_components/prefooter/PreFooter';
 import PremiumGifts from './_components/primum-gifts/PrimumGifts';
 import SecondNav from './_components/second-nav/SecondNav';
 import Testimonials from './_components/testimonials/Testimonials';
@@ -19,5 +20,6 @@ export default function Home() {
     <AboutusSection />
     <GridSextion />
     <Testimonials />
+    <PreFooter />
   </>
 }

@@ -1,0 +1,15 @@
+.test {
+    position: relative;
+    width: fit-content;
+    margin: auto;
+  }
+
+  .test::after{
+    content: "";
+    position :absolute;
+    width: 140px;
+    height: 2px;
+    background-color: #F82BA9;
+    bottom:-3px;
+    left: 0;
+  }
