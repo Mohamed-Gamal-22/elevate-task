@@ -160,7 +160,7 @@ export default function Cart() {
               </tbody>
             </table>
           </div>
-          <div className="flex items-center justify-between items-center">
+          <div className="flex items-center justify-between">
             <form className='my-10 flex items-center w-fit relative'>
               <Input className='w-[400px]' placeholder='Enter Your Email'/>
               <Button className='text-white py-[10px] px-[20px] rounded-[30px] absolute top-0 end-[-50px]'>Apply coupon <ArrowRight /></Button>
