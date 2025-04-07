@@ -15,7 +15,7 @@ const inter = Inter({
 export default function Payment() {
   return <>
     <div className={`container mx-auto w-[80%] ${inter.className}`}>
-
+    <h2 className="font-bold text-[#212529] mb-6">Your Billing Address</h2>
     <div className="flex justify-between">
         <div className="left  w-full p-9">
             <p className="font-bold text-[#F82BA9] mb-4">Your Payment Info</p>
