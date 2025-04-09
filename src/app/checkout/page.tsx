@@ -93,7 +93,6 @@ export default function Checkout() {
                     </div>
 
                 </form>
-            <SearchInput />
 
             <div className="cart-details">
             <h2 className="font-bold my-8">Cart Summary</h2>
