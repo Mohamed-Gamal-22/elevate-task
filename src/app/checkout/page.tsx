@@ -5,6 +5,7 @@ import React from 'react'
 import { Inter } from 'next/font/google'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@radix-ui/react-select'
+import SearchInput from '../_components/search/Search'
 
 const inter = Inter({
     subsets: ['latin'],
@@ -92,6 +93,7 @@ export default function Checkout() {
                     </div>
 
                 </form>
+            <SearchInput />
 
             <div className="cart-details">
             <h2 className="font-bold my-8">Cart Summary</h2>
