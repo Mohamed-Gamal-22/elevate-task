@@ -93,8 +93,6 @@ export default function Checkout() {
 
                 </form>
 
-
-
             <div className="cart-details">
             <h2 className="font-bold my-8">Cart Summary</h2>
             <div className="item flex justify-between gap-20 my-2">
