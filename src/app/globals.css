@@ -104,3 +104,8 @@ textarea {
     @apply bg-background text-foreground;
     }
 }
+
+
+input:checked{
+  accent-color: #F82BA9 !important;
+}
