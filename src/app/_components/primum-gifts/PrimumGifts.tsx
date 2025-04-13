@@ -1,14 +1,43 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import style from "./Primum.module.css"
 import { Button } from '@/components/ui/button'
 import { ArrowRight, BriefcaseBusiness, Star } from 'lucide-react'
-import img from "../../../public/assets/images/Link.png"
 import Image from 'next/image'
-import img1 from "../../../public/assets/images/02.png.png"
-import img2 from "../../../public/assets/images/03.png.png"
+import Slider from "react-slick";
+import SampleNextArrow from '../Arrows/next-arrow/NextArrow'
+import SamplePrevArrow from '../Arrows/prev-arrow/PrevArrow'
+import { Product } from '../../../types/product.type.'
+import StarsRating from './../stars-rating/StarsRating';
+
+var settings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
+  };
 
 export default function PremiumGifts() {
+
+    const [data, setdata] = useState<Product[]>([])
+
+    async function getBest(){
+        let response = await fetch(`http://localhost:3000/api/best-seller`)
+        let data = await response.json()
+        console.log(data.data.bestSeller)
+        setdata(data.data.bestSeller)
+      }
+    
+      useEffect(()=>{
+        getBest()
+      }, [])
+
+
   return <>
+  
     <div className="parent flex container w-[80%] mx-auto">
         <div className="first w-1/4 p-3">
             <h3 className={`color-rose font-bold ${style.letter} mb-7`}>Premium Gifts</h3>
@@ -16,70 +45,34 @@ export default function PremiumGifts() {
             <p className='text-[#757F95] mb-5'>Recusandae tempora aut laborum molestias veniam. A commodi sequi accusantium ullam cupiditate. Neque quidem qui et autem dolor dicta necessitatibus ut ad.</p>
             <Button className='text-white py-[10px] px-[20px]'>Explore More <ArrowRight /></Button>
         </div>
-        <div className="w-3/4 p-3 products flex">
-            <div className='w-1/3 relative'>
-                <Image src={img} alt="watch" className='w-full'/>
-                <h3 className='font-bold'>Spicial Gift Box</h3>
-                <div className="footer flex justify-between items-center">
-                    <div className="left">
-                        <div className="stars flex gap-1 my-2">
-                            <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                            <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                            <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                            <Star className='text-sm text-yellow-400'/>
+        <div className="w-3/4 p-3 product">
+            <Slider {...settings} >
+            {data?.map((product) => <div className='relative p-3'>
+                    <div className={`relative w-full h-[250px] ${style.imageContainer}`}>
+                    <Image
+                        src={product.imgCover}
+                        alt={product.title}
+                        layout="fill" // Fills parent container
+                        objectFit="cover"
+                    />
+                    </div>
+                    <h3 className='font-bold'>{product.title}</h3>
+                    <div className="footer flex justify-between items-center">
+                        <div className="left">
+                            <div className="stars flex gap-1 my-2">
+                                <StarsRating product={product} />
+                            </div>
+                            <p className='color-rose'>price : ${product.price}</p>
                         </div>
-                        <p>price : $250.00</p>
-                    </div>
-                    <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                        <BriefcaseBusiness className=' '/>
-                    </div>
-                </div>
-                <div className="notification absolute top-0 end-0 bg-rose text-white px-3 py-0 rounded-2xl">
-                    new
-                </div>
-            </div>
-            <div className='w-1/3 relative'>
-                <Image src={img1} alt="watch" className='w-full'/>
-                <h3 className='font-bold'>Spicial Gift Box</h3>
-                <div className="footer flex justify-between items-center">
-                    <div className="left">
-                        <div className="stars flex gap-1 my-2">
-                            <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                            <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                            <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                            <Star className='text-sm text-yellow-400'/>
+                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
+                            <BriefcaseBusiness className=' '/>
                         </div>
-                        <p>price : $250.00</p>
                     </div>
-                    <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                        <BriefcaseBusiness className=' '/>
+                    <div className="notification absolute top-0 end-0 bg-rose text-white px-3 py-0 rounded-2xl">
+                        new
                     </div>
-                </div>
-                <div className="notification absolute top-0 end-0 bg-[#F05454] text-white px-3 py-0 rounded-2xl">
-                    Out Of Stoke
-                </div>
-            </div>
-            <div className='w-1/3 relative'>
-                <Image src={img2} alt="watch" className='w-full'/>
-                <h3 className='font-bold'>Spicial Gift Box</h3>
-                <div className="footer flex justify-between items-center">
-                    <div className="left">
-                        <div className="stars flex gap-1 my-2">
-                            <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                            <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                            <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                            <Star className='text-sm text-yellow-400'/>
-                        </div>
-                        <p>price : $250.00</p>
-                    </div>
-                    <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                        <BriefcaseBusiness className=' '/>
-                    </div>
-                </div>
-                <div className="notification absolute top-0 end-0 bg-[#00BFFF] text-white px-3 py-0 rounded-2xl">
-                    Hot
-                </div>
-            </div>
+                </div>)}
+            </Slider>
         </div>
     </div>
   </>

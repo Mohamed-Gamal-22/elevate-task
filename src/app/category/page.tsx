@@ -1,11 +1,27 @@
+"use client"
 import { Checkbox } from '@/components/ui/checkbox'
 import { BriefcaseBusiness, Eye, Heart, Star } from 'lucide-react'
 import Image from 'next/image'
-import React from 'react'
-import img1 from "../../public/assets/images/02.png.png";
-import img2 from "../../public/assets/images/03.png.png";
+import React, { useEffect, useState } from 'react'
+import { Product } from '@/types/product.type.';
+import StarsRating from '../_components/stars-rating/StarsRating'
 
 export default function Category() {
+
+    const [data, setdata] = useState<Product[]>([])
+    
+    async function getProducts(){
+        let response = await fetch(`http://localhost:3000/api/categories`)
+        let data = await response.json()
+        console.log(data.data.products)
+        setdata(data.data.products)
+        }
+    
+        useEffect(()=>{
+        getProducts()
+        }, [])
+
+
   return <>
     <div className="flex items-start min-h-screen p-4">
         <div className="filter w-1/5 ">
@@ -250,9 +266,17 @@ export default function Category() {
             </div>
         </div>
          <div className="flex w-4/5 flex-wrap p-3 products gap-y-4 ">
-                <div className='w-1/3 relative p-3'>
+            {data?.map((product) => <div className='w-1/3 relative p-3'>
                     <div className="main relative">
-                        <Image src={img1} alt="watch" className='w-full h-[220px] object-contain'/>
+                        <div className={`relative w-full h-[250px]`}>
+                        <Image
+                            src={product.imgCover}
+                            alt={product.title}
+                            layout="fill" // Fills parent container
+                            objectFit="cover"
+                            className='rounded-[20px]'
+                        />
+                        </div>
                         <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
                             <div className='bg-[#F82BA9] p-1 rounded-full'>
                                 <Eye className='size-8 rounded-full text-white cursor-pointer'/>
@@ -262,330 +286,19 @@ export default function Category() {
                             </div>
                         </div>
                     </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
+                    <h3 className='font-bold'>{product.title}</h3>
                     <div className="footer flex justify-between items-center">
                         <div className="left">
                             <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
+                                <StarsRating product={product}/>
                             </div>
-                            <p>price : $250.00</p>
+                            <p className="color-rose">price : ${product.price}</p>
                         </div>
                         <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
                             <BriefcaseBusiness className=' '/>
                         </div>
                     </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img2} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img1} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img2} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img1} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img2} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img1} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img2} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img1} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img2} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img2} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
-                <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <Image src={img1} alt="watch" className='w-full h-[220px] object-contain'/>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>Spicial Gift Box</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400 fill-yellow-400'/>
-                                <Star className='text-sm text-yellow-400'/>
-                            </div>
-                            <p>price : $250.00</p>
-                        </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>
+                </div>)}
         </div>
     </div>
   </>

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "./_components/navbar/Navbar";
 import Footer from "./_components/footer/Footer";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",

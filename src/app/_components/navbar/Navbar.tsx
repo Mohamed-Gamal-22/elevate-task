@@ -23,7 +23,7 @@ export default function Navbar() {
         <div className="links">
           <ul className='flex gap-6 items-center'>
             <li><Link href="/" className={path == "/" ? "color-rose" : ""}>Home</Link></li>
-            <li><Link href="/categories" className={path == "/categories" ? "nav-active" : ""}>All Category</Link></li>
+            <li><Link href="/category" className={path == "/category" ? "nav-active" : ""}>All Category</Link></li>
             <li><Link href="/about" className={path == "/about" ? "nav-active" : ""}>About</Link></li>
             <li><Link href="/contact" className={path == "/contact" ? "nav-active" : ""}>Contact</Link></li>
           </ul>
