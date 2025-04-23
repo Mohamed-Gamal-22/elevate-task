@@ -29,7 +29,7 @@ async function getPopular(){
     </div>
     
     <div className="flex flex-wrap p-3 products gap-y-8 container w-[80%] mx-auto">
-        {data?.map((product) => <div key={product._id} className='w-1/4 relative p-3'>
+        {data?.map((product) => <div key={product._id} className='w-full sm:w-1/2 md:w-1/3 lg:w-1/4 relative p-3'>
             <div className="main relative">
                 <div className={`relative w-full h-[250px] ${style.imageContainer}`}>
                     <Image

@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
-import React, { useContext } from 'react'
+import React from 'react'
 import {
     Card,
     CardContent,
@@ -16,13 +16,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { LoginFields, loginScema } from '@/lib/schemes/authSchema'
 import {zodResolver} from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
-import { LoginContext } from '@/app/context/LoginContext'
 
 export default function Login() {
 
-    const {showLogin ,setshowLogin} = useContext(LoginContext)
     // mohamedgamal@gmail.com
     // Mm@123456
+
+
 
     // <loginField> => make type for form inputs
     const form = useForm<LoginFields>({
@@ -33,12 +33,6 @@ export default function Login() {
         resolver :zodResolver(loginScema)
     })
 
-    // const {register, handleSubmit, formState} = useForm({
-    //     defaultValues: {
-    //         email:"",
-    //         password:""
-    //     }
-    // })
 
     async function submitForm(values:any){
         console.log(values)
@@ -114,6 +108,9 @@ export default function Login() {
                                 /> */}
                                 <span className='color-rose underline'>Forget Password</span>
                             </div>
+
+                            {/* change to Register */}
+                            <p>dont have an account ? <span className="color-rose underline cursor-pointer">Go To Register</span></p>
 
                             {/* Submit Button */}
                             <Button className='ms-2' type='submit' disabled={form.formState.isSubmitted && !form.formState.isValid}>Login</Button>

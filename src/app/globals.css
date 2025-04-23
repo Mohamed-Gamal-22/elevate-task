@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
 
 
 ul li a {
@@ -24,9 +27,6 @@ ul li a {
   background-color: #160E4B;
 }
 
-body {
-  height: 50000px;
-}
 
 input::placeholder,
 textarea::placeholder {

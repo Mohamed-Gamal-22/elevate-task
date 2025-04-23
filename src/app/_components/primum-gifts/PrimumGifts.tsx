@@ -17,7 +17,33 @@ var settings = {
     slidesToShow: 3,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true,
+            dots: true
+          }
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            initialSlide: 1
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+      ]
   };
 
 export default function PremiumGifts() {
@@ -38,14 +64,14 @@ export default function PremiumGifts() {
 
   return <>
   
-    <div className="parent flex container w-[80%] mx-auto">
-        <div className="first w-1/4 p-3">
+    <div className="parent flex flex-wrap container w-[80%] mx-auto">
+        <div className="first w-full lg:w-1/4 p-3">
             <h3 className={`color-rose font-bold ${style.letter} mb-7`}>Premium Gifts</h3>
             <h2 className='font-bold text-2xl my-4'>Best <span className='color-rose'>Seller Gifts</span> And Products</h2>
             <p className='text-[#757F95] mb-5'>Recusandae tempora aut laborum molestias veniam. A commodi sequi accusantium ullam cupiditate. Neque quidem qui et autem dolor dicta necessitatibus ut ad.</p>
             <Button className='text-white py-[10px] px-[20px]'>Explore More <ArrowRight /></Button>
         </div>
-        <div className="w-3/4 p-3 product">
+        <div className="w-full lg:w-3/4 p-3 product">
             <Slider {...settings} >
             {data?.map((product) => <div key={product._id} className='relative p-3'>
                     <div className={`relative w-full h-[250px] ${style.imageContainer}`}>

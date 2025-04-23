@@ -7,7 +7,7 @@ import { ArrowRight } from 'lucide-react'
 export default function Footer() {
   return <>
     <div className={`${style.section} container w-[80%] mx-auto my-20 py-8`}>
-      <ul className='flex justify-evenly'>
+      <ul className='flex gap-5 flex-wrap justify-center'>
         <li>
           <a href="" className='font-bold'>About Us</a>
         </li>
@@ -31,10 +31,11 @@ export default function Footer() {
       <h2 className={`text-center font-bold text-[30px] mt-12`}>Get <span className='color-rose'>20%</span> Off Discount Coupon</h2>
       <p className='text-center text-[#757F95]'>By Subscribe Our Newsletter</p>
 
-      <form className='my-10 flex items-center w-fit mx-auto relative'>
-        <Input className='w-[400px]' placeholder='Enter Your Email'/>
+      <form className='my-10 flex flex-wrap items-center w-[75%] mx-auto relative'>
+        <Input className='w-[100%]' placeholder='Enter Your Email'/>
         <Button className='text-white py-[10px] px-[20px] rounded-[30px] absolute top-0 end-[-50px]'>Supscribe <ArrowRight /></Button>
       </form>
     </div>
   </>
 }
+ 

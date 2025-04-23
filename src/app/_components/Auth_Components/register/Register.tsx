@@ -1,26 +1,161 @@
+"use client"
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { RegisterFields, registerSchema } from '@/lib/schemes/authSchema'
+import { registerUser } from '@/app/register.action'
+import Swal from 'sweetalert2'
+
 
 export default function Register() {
-  return <>
+  const form = useForm<RegisterFields>({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      rePassword: "",
+      phone: "",
+      gender: "male"
+    },
+    resolver: zodResolver(registerSchema)
+  });
+
+  async function handleRegister(values: RegisterFields) {
+    console.log(values)
+    const response = await registerUser(values);
+    console.log(response)
+    if(response.success) {
+        // error alert
+        Swal.fire({
+            title: "You Registerd Successfully 😍",
+            icon: "success",
+            draggable: true
+          });
+    }
+    else{
+        Swal.fire({
+            title: `${response.error} 💔`,
+            icon: "error",
+            draggable: true
+          });
+    }
+
+  }
+
+  return (
     <div className='h-screen fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-80 z-10 flex items-center justify-center'>
-        <div className='w-[600px] bg-white rounded-[20px] shadow-md p-8 text-[14px]'>
-            <h2 className='text-[30px] my-8'>Create Account</h2>
-            <form>
-                <Input placeholder='First Name...' className='mb-6'/>
-                <Input placeholder='Last Name...' className='mb-6'/>
-                <Input placeholder='Phone Number...' className='mb-6'/>
-                <Input placeholder='Email...' className='mb-6'/>
-                <Input placeholder='Password...' className='mb-6'/>
-                <Input placeholder='Confirm Password...' className='mb-6'/>
+      <div className='w-[600px] bg-white rounded-[20px] shadow-md p-8 text-[14px]'>
+        <h2 className='text-[30px] my-8 ms-7'>Create Account</h2>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleRegister)}>
 
-                <p className='text-center my-8 text-[#313131]'>Already Have An Account? <span className='color-rose underline'>Login</span></p>
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem className="mb-3">
+                  <FormControl>
+                    <Input placeholder="First Name..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-                <Button className="w-full text-white rounded-[30px]">Create Account</Button>
-            </form>
-        </div>
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem className="mb-3">
+                  <FormControl>
+                    <Input placeholder="Last Name..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="mb-3">
+                  <FormControl>
+                    <Input placeholder="Email..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="mb-3">
+                  <FormControl>
+                    <Input type="password" placeholder="Password..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="rePassword"
+              render={({ field }) => (
+                <FormItem className="mb-3">
+                  <FormControl>
+                    <Input type="password" placeholder="Confirm Password..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem className="mb-3">
+                  <FormControl>
+                    <Input placeholder="Phone Number..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="gender"
+              render={({ field }) => (
+                <FormItem className="mb-3">
+                  <FormControl>
+                    <select {...field} className="w-full border rounded px-3 py-2">
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button type="submit" className="w-full text-white rounded-[30px] mt-4">
+              Create Account
+            </Button>
+
+            <p className='text-center my-8 text-[#313131]'>Already have an account?
+              <span className='text-rose-500 underline ms-1'>Login</span>
+            </p>
+          </form>
+        </Form>
+      </div>
     </div>
-  </>
+  );
 }

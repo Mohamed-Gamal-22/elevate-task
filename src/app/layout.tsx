@@ -4,8 +4,10 @@ import Navbar from "./_components/navbar/Navbar";
 import Footer from "./_components/footer/Footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import LoginContextProvider from "./context/LoginContext";
 import NextAuthProvider from "./provider/next-auth.provider";
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import 'sweetalert2/src/sweetalert2.scss'
+import ModalForm from "./context/LoginContext";
 
 
 export const metadata: Metadata = {
@@ -24,14 +26,16 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <NextAuthProvider>
-          <LoginContextProvider>
+          <ModalForm>
             <Navbar />
             <div className="">
               {children}
             </div>
             <Footer />
-          </LoginContextProvider>
+          </ModalForm>
         </NextAuthProvider>
+
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
       </body>
     </html>
   );

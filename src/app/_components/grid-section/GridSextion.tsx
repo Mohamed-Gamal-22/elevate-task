@@ -11,22 +11,23 @@ export default function GridSextion() {
   return <>
     <h3 className={`${style.letter} text-center color-rose font-bold`}>Our Gallery</h3>
     <h2 className={`text-center font-bold text-[30px] ${style.test}`}>Let's Check Our Photo Gallery</h2>
-    <div className={`${style.container} mb-20 mt-16 container w-[80%] mx-auto`}>
-        <div className={`${style.one}`}>
-            <Image src={img1} alt="img1"/>
-        </div>
-        <div className={`${style.two}`}>
-            <Image src={img2} alt="img2"/>
-        </div>
-        <div className={`${style.three}`}>
-            <Image src={img3} alt="img3"/>
-        </div>
-        <div className={`${style.four}`}>
-            <Image src={img4} alt="img4"/>
-        </div>
-        <div className={`${style.five}`}>
-            <Image src={img5} alt="img5"/>
-        </div>
-    </div>
+    <div className="mb-20 mt-16 container justify-center w-[90%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div className="rounded-xl overflow-hidden">
+    <Image src={img1} alt="img1" className="w-full h-auto" />
+  </div>
+  <div className="rounded-xl overflow-hidden">
+    <Image src={img2} alt="img2" className="w-full h-auto" />
+  </div>
+  <div className="rounded-xl overflow-hidden">
+    <Image src={img3} alt="img3" className="w-full h-auto" />
+  </div>
+  <div className="lg:col-span-2 rounded-xl overflow-hidden">
+    <Image src={img4} alt="img4" className="w-full h-auto" />
+  </div>
+  <div className="rounded-xl overflow-hidden">
+    <Image src={img5} alt="img5" className="w-full h-auto" />
+  </div>
+</div>
+
   </>
 }
