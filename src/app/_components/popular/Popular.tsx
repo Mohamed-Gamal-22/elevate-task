@@ -13,7 +13,7 @@ export default function Popular() {
 async function getPopular(){
         let response = await fetch(`http://localhost:3000/api/home`)
         let data = await response.json()
-        console.log(data.data.products)
+        // console.log(data.data.products)
         setdata(data.data.products)
       }
     
@@ -29,7 +29,7 @@ async function getPopular(){
     </div>
     
     <div className="flex flex-wrap p-3 products gap-y-8 container w-[80%] mx-auto">
-        {data?.map((product) => <div className='w-1/4 relative p-3'>
+        {data?.map((product) => <div key={product._id} className='w-1/4 relative p-3'>
             <div className="main relative">
                 <div className={`relative w-full h-[250px] ${style.imageContainer}`}>
                     <Image

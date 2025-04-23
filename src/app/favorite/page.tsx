@@ -6,12 +6,23 @@ import img4 from "../../public/assets/images/mug.png";
 import { BriefcaseBusiness, Eye, Heart, Star } from 'lucide-react'
 import Image from 'next/image';
 import style from "./favorite.module.css"
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/auth';
 
 
-export default function Favorite() {
+export default async function Favorite() {
+
+// getServerSession ==> get data of user in server side ==> return promise should use await
+//                  ==> if session means im loged in  
+// getSession       ==> get data in serve rand client => return promise 
+// useSession       ==> get data in client side
+
+    const session = await getServerSession(authOptions);
+    console.log(session)
+
   return <>
     <div className="container w-[80%] mx-auto mt-20">
-        <h2 className={`${style.test} text-3xl font-bold mt-12 mb-8`}>My Wishlist</h2>
+        <h2 className={`${style.test} text-3xl font-bold mt-12 mb-8`}>My Wishlist {session?.user.firstName}</h2>
     </div>
      <div className="flex flex-wrap p-3 products gap-y-8 container w-[80%] mx-auto">
         <div className='w-1/4 relative p-3'>

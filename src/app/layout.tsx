@@ -4,6 +4,9 @@ import Navbar from "./_components/navbar/Navbar";
 import Footer from "./_components/footer/Footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import LoginContextProvider from "./context/LoginContext";
+import NextAuthProvider from "./provider/next-auth.provider";
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,11 +23,15 @@ export default function RootLayout({
       <body suppressHydrationWarning={true}
         className={`antialiased`}
       >
-        <Navbar />
-        <div className="">
-          {children}
-        </div>
-        <Footer />
+        <NextAuthProvider>
+          <LoginContextProvider>
+            <Navbar />
+            <div className="">
+              {children}
+            </div>
+            <Footer />
+          </LoginContextProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

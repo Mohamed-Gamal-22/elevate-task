@@ -27,7 +27,7 @@ export default function PremiumGifts() {
     async function getBest(){
         let response = await fetch(`http://localhost:3000/api/best-seller`)
         let data = await response.json()
-        console.log(data.data.bestSeller)
+        // console.log(data.data.bestSeller)
         setdata(data.data.bestSeller)
       }
     
@@ -47,7 +47,7 @@ export default function PremiumGifts() {
         </div>
         <div className="w-3/4 p-3 product">
             <Slider {...settings} >
-            {data?.map((product) => <div className='relative p-3'>
+            {data?.map((product) => <div key={product._id} className='relative p-3'>
                     <div className={`relative w-full h-[250px] ${style.imageContainer}`}>
                     <Image
                         src={product.imgCover}
