@@ -7,8 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import NextAuthProvider from "./provider/next-auth.provider";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
-import ModalForm from "./context/LoginContext";
-
+import AuthFormContextProvider from "./context/AuthForm";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,13 +25,14 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <NextAuthProvider>
-          <ModalForm>
-            <Navbar />
-            <div className="">
-              {children}
-            </div>
-            <Footer />
-          </ModalForm>
+          <AuthFormContextProvider>
+              <Navbar />
+              
+              <div className="">
+                {children}
+              </div>
+              <Footer />
+          </AuthFormContextProvider>
         </NextAuthProvider>
 
         <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>

@@ -7,9 +7,15 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { RegisterFields, registerSchema } from '@/lib/schemes/authSchema'
 import { registerUser } from '@/app/register.action'
 import Swal from 'sweetalert2'
+import { useContext } from 'react'
+import { AuthFormContext } from '@/app/context/AuthForm'
 
 
 export default function Register() {
+
+  const { closeAll, getLogin } = useContext<any>(AuthFormContext);
+
+
   const form = useForm<RegisterFields>({
     defaultValues: {
       firstName: "",
@@ -45,8 +51,17 @@ export default function Register() {
 
   }
 
+  function closeLogin(e:any){
+    e.stopPropagation()
+    if(Array.from(e.target.classList).includes("h-screen")){
+        closeAll()
+    }
+}
+
+
+
   return (
-    <div className='h-screen fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-80 z-10 flex items-center justify-center'>
+    <div onClick={(e) => {closeLogin(e)}} className='h-screen fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-80 z-10 flex items-center justify-center'>
       <div className='w-[600px] bg-white rounded-[20px] shadow-md p-8 text-[14px]'>
         <h2 className='text-[30px] my-8 ms-7'>Create Account</h2>
         <Form {...form}>
@@ -151,7 +166,7 @@ export default function Register() {
             </Button>
 
             <p className='text-center my-8 text-[#313131]'>Already have an account?
-              <span className='text-rose-500 underline ms-1'>Login</span>
+              <span onClick={() => getLogin()} className='text-rose-500 underline ms-1 cursor-pointer'>Login</span>
             </p>
           </form>
         </Form>

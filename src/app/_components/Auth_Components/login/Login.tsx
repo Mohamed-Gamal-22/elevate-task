@@ -2,7 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
-import React from 'react'
+import React, { useContext } from 'react'
 import {
     Card,
     CardContent,
@@ -16,8 +16,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { LoginFields, loginScema } from '@/lib/schemes/authSchema'
 import {zodResolver} from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
+import { AuthFormContext } from '@/app/context/AuthForm'
 
 export default function Login() {
+
+    const { closeAll, getRegister } = useContext<any>(AuthFormContext);
+
 
     // mohamedgamal@gmail.com
     // Mm@123456
@@ -33,6 +37,12 @@ export default function Login() {
         resolver :zodResolver(loginScema)
     })
 
+    function closeLogin(e:any){
+        e.stopPropagation()
+        if(Array.from(e.target.classList).includes("h-screen")){
+            closeAll()
+        }
+    }
 
     async function submitForm(values:any){
         console.log(values)
@@ -50,7 +60,7 @@ export default function Login() {
     }
 
   return <>
-    <div className='h-screen fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-80 z-10 flex items-center justify-center'>
+    <div onClick={(e) => {closeLogin(e)}} className='h-screen fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-80 z-10 flex items-center justify-center'>
         <div className='w-[608px] bg-white rounded-[20px] shadow-md p-8 text-[14px]'>
             <h2 className='text-[30px] my-8 ms-7'>Login To Your Account</h2>
             <Card className='border-0'>
@@ -110,7 +120,7 @@ export default function Login() {
                             </div>
 
                             {/* change to Register */}
-                            <p>dont have an account ? <span className="color-rose underline cursor-pointer">Go To Register</span></p>
+                            <p>dont have an account ? <span onClick={() => getRegister()} className="color-rose underline cursor-pointer">Go To Register</span></p>
 
                             {/* Submit Button */}
                             <Button className='ms-2' type='submit' disabled={form.formState.isSubmitted && !form.formState.isValid}>Login</Button>

@@ -6,17 +6,23 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Briefcase, Heart, Search, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { AuthFormContext } from '@/app/context/AuthForm'
+import Register from '../Auth_Components/register/Register'
+import Login from '../Auth_Components/login/Login'
+
 
 
 export default function Navbar() {
 
-
+const {getLogin, getRegister, login, register} = useContext<any>(AuthFormContext);
 
 
   let path = usePathname()
   // console.log(path)
 
   return <>
+  {login && <Login />}
+  {register && <Register />}
 
 <nav className="bg-white dark:bg-gray-900 w-full z-20 top-0 start-0dark:border-gray-600">
   <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -60,7 +66,7 @@ export default function Navbar() {
           </div>
           </div>
           <Link href="/">
-            <Button className='rounded-[30px] py-2 px-5 text-white'>Login</Button>
+            <Button onClick={()=> getLogin()} className='rounded-[30px] py-2 px-5 text-white'>Login</Button>
           </Link>
         </div>
       </div>
