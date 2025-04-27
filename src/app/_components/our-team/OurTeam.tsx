@@ -14,8 +14,8 @@ export default function OurTeam() {
     <h3 className={`${style.letter} text-center color-rose font-bold`}>Our Team</h3>
     <h2 className={`text-center font-bold text-[30px] ${style.test}`}>Meet Our Expert <span className='color-rose'>Team</span></h2>
 
-    <div className="container w-[80%] mx-auto flex items-center">
-        <div className="member w-1/4 p-6">
+    <div className="container w-[80%] mx-auto flex flex-wrap items-center">
+        <div className="member w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-6">
           <header className='text-center my-8'>
             <Image src={member1} alt="member1" className='w-full rounded-lg'/>
             <h3 className='color-dark font-bold mt-2'>Mohamed Gamal</h3>
@@ -38,7 +38,7 @@ export default function OurTeam() {
             </div>
           </footer>
         </div>
-        <div className="member w-1/4 p-6">
+        <div className="member w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-6">
           <header className='text-center my-8'>
             <Image src={member2} alt="member1" className='w-full rounded-lg'/>
             <h3 className='color-dark font-bold mt-2'>Mohamed Gamal</h3>
@@ -61,7 +61,7 @@ export default function OurTeam() {
             </div>
           </footer>
         </div>
-        <div className="member w-1/4 p-6">
+        <div className="member w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-6">
           <header className='text-center my-8'>
             <Image src={member3} alt="member1" className='w-full rounded-lg'/>
             <h3 className='color-dark font-bold mt-2'>Mohamed Gamal</h3>
@@ -84,7 +84,7 @@ export default function OurTeam() {
             </div>
           </footer>
         </div>
-        <div className="member w-1/4 p-6">
+        <div className="member w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-6">
           <header className='text-center my-8'>
             <Image src={member4} alt="member1" className='w-full rounded-lg'/>
             <h3 className='color-dark font-bold mt-2'>Mohamed Gamal</h3>

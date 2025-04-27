@@ -25,10 +25,10 @@ export default function InstagramSection() {
     <h2 className={`text-center font-bold text-[30px] ${style.test}`}>Instagram <span className={`color-rose ${spicialFont.className}`}>@Rose</span></h2>
 
 
-    <div className="container w-[80%] mb-20 mx-auto flex">
-        <div className="insta my-4 p-2">
+    <div className="container w-[80%] mb-20 mx-auto flex flex-wrap justify-center">
+        <div className="insta my-4 p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
             <div className="item relative">
-                <Image src={gift1} alt="gift1"/>
+                <Image src={gift1} alt="gift1" className="w-full h-full"/>
                 <div className="layer absolute opacity-0 hover:opacity-100 duration-300 inset-0 rounded-[20px] text-white bg-[#F82BA977] flex justify-center items-center">
                         <div className="icon bg-rose bg-rose size-9 flex items-center justify-center rounded-full">
                         <FaInstagram className='text-white size-5 cursor-pointer'/>
@@ -36,9 +36,9 @@ export default function InstagramSection() {
                 </div>
             </div>
         </div>
-        <div className="insta my-4 p-2">
+        <div className="insta my-4 p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
             <div className="item relative">
-                <Image src={gift2} alt="gift2"/>
+                <Image src={gift2} alt="gift2" className="w-full h-full"/>
                 <div className="layer absolute opacity-0 hover:opacity-100 duration-300 inset-0 rounded-[20px] text-white bg-[#F82BA977] flex justify-center items-center">
                         <div className="icon bg-rose bg-rose size-9 flex items-center justify-center rounded-full">
                         <FaInstagram className='text-white size-5 cursor-pointer'/>
@@ -46,9 +46,9 @@ export default function InstagramSection() {
                 </div>
             </div>
         </div>
-        <div className="insta my-4 p-2">
+        <div className="insta my-4 p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
             <div className="item relative">
-                <Image src={gift3} alt="gift3"/>
+                <Image src={gift3} alt="gift3" className="w-full h-full"/>
                 <div className="layer absolute opacity-0 hover:opacity-100 duration-300 inset-0 rounded-[20px] text-white bg-[#F82BA977] flex justify-center items-center">
                         <div className="icon bg-rose bg-rose size-9 flex items-center justify-center rounded-full">
                         <FaInstagram className='text-white size-5 cursor-pointer'/>
@@ -56,9 +56,9 @@ export default function InstagramSection() {
                 </div>
             </div>
         </div>
-        <div className="insta my-4 p-2">
+        <div className="insta my-4 p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
             <div className="item relative">
-                <Image src={gift4} alt="gift4"/>
+                <Image src={gift4} alt="gift4" className="w-full h-full"/>
                 <div className="layer absolute opacity-0 hover:opacity-100 duration-300 inset-0 rounded-[20px] text-white bg-[#F82BA977] flex justify-center items-center">
                         <div className="icon bg-rose bg-rose size-9 flex items-center justify-center rounded-full">
                         <FaInstagram className='text-white size-5 cursor-pointer'/>
@@ -66,9 +66,9 @@ export default function InstagramSection() {
                 </div>
             </div>
         </div>
-        <div className="insta my-4 p-2">
+        <div className="insta my-4 p-2 w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
             <div className="item relative">
-                <Image src={gift5} alt="gift5"/>
+                <Image src={gift5} alt="gift5" className="w-full h-full"/>
                 <div className="layer absolute opacity-0 hover:opacity-100 duration-300 inset-0 rounded-[20px] text-white bg-[#F82BA977] flex justify-center items-center">
                         <div className="icon bg-rose bg-rose size-9 flex items-center justify-center rounded-full">
                         <FaInstagram className='text-white size-5 cursor-pointer'/>
