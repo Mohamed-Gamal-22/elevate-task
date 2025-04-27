@@ -2,11 +2,16 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { BriefcaseBusiness, Eye, Heart, Star } from 'lucide-react'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState } from 'react'
 import { Product } from '@/types/product.type.';
 import StarsRating from '../_components/stars-rating/StarsRating'
+import { CartContext } from '../context/CartContext'
+
 
 export default function Category() {
+
+    const { addToCard } = useContext<any>(CartContext)
+
 
     const [data, setdata] = useState<Product[]>([])
     
@@ -294,7 +299,7 @@ export default function Category() {
                             </div>
                             <p className="color-rose">price : ${product.price}</p>
                         </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
+                        <div onClick={() => addToCard(product._id)} className="right bg-[#8C52FF] text-white p-2 rounded-full cursor-pointer">
                             <BriefcaseBusiness className=' '/>
                         </div>
                     </div>

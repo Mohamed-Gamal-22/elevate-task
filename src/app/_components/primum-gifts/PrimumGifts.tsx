@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import style from "./Primum.module.css"
 import { Button } from '@/components/ui/button'
 import { ArrowRight, BriefcaseBusiness, Star } from 'lucide-react'
@@ -9,6 +9,8 @@ import SampleNextArrow from '../Arrows/next-arrow/NextArrow'
 import SamplePrevArrow from '../Arrows/prev-arrow/PrevArrow'
 import { Product } from '../../../types/product.type.'
 import StarsRating from './../stars-rating/StarsRating';
+import { CartContext } from '@/app/context/CartContext'
+
 
 var settings = {
     dots: false,
@@ -47,6 +49,8 @@ var settings = {
   };
 
 export default function PremiumGifts() {
+
+  const { addToCard } = useContext<any>(CartContext)
 
     const [data, setdata] = useState<Product[]>([])
 
@@ -90,8 +94,8 @@ export default function PremiumGifts() {
                             </div>
                             <p className='color-rose'>price : ${product.price}</p>
                         </div>
-                        <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                            <BriefcaseBusiness className=' '/>
+                        <div onClick={()=> addToCard(product._id)} className="right bg-[#8C52FF] text-white p-2 rounded-full cursor-pointer">
+                            <BriefcaseBusiness />
                         </div>
                     </div>
                     <div className="notification absolute top-0 end-0 bg-rose text-white px-3 py-0 rounded-2xl">

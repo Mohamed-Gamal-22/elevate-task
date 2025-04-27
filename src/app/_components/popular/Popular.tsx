@@ -1,12 +1,17 @@
 "use client"
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, {useContext, useEffect, useState } from 'react'
 import { BriefcaseBusiness, Eye, Heart } from 'lucide-react'
 import style from "./popular.module.css"
 import { Product } from '@/types/product.type.';
 import StarsRating from '../stars-rating/StarsRating';
+import { CartContext } from '@/app/context/CartContext'
+
 
 export default function Popular() {
+
+    const { addToCard } = useContext<any>(CartContext)
+
 
     const [data, setdata] = useState<Product[]>([])
 
@@ -57,8 +62,8 @@ async function getPopular(){
                     </div>
                     <p className="color-rose">price : ${product.price}</p>
                 </div>
-                <div className="right bg-[#8C52FF] text-white p-2 rounded-full">
-                    <BriefcaseBusiness className=' '/>
+                <div onClick={() => addToCard(product._id)} className="right bg-[#8C52FF] text-white p-2 rounded-full cursor-pointer">
+                    <BriefcaseBusiness />
                 </div>
             </div>
         </div>)}

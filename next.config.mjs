@@ -9,6 +9,13 @@ const nextConfig = {
             pathname: '/**',
             search: '',
           },
+          {
+            protocol: 'https',
+            hostname: 'https://flower.elevateegy.com/uploads',
+            port: '',
+            pathname: '/**',
+            search: '',
+          },
         ],
       },
 };

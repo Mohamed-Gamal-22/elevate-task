@@ -8,6 +8,7 @@ import NextAuthProvider from "./provider/next-auth.provider";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import AuthFormContextProvider from "./context/AuthForm";
+import CartContextProvider from "./context/CartContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,12 +27,13 @@ export default function RootLayout({
       >
         <NextAuthProvider>
           <AuthFormContextProvider>
-              <Navbar />
-              
+            <CartContextProvider>
+              <Navbar /> 
               <div className="">
                 {children}
               </div>
               <Footer />
+            </CartContextProvider>
           </AuthFormContextProvider>
         </NextAuthProvider>
 

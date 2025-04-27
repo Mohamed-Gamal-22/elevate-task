@@ -3,18 +3,22 @@ import React, { useContext } from 'react'
 import Image from 'next/image'
 import logo from "../../../public/assets/images/Group 3.svg"
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { Briefcase, Heart, Search, User } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { AuthFormContext } from '@/app/context/AuthForm'
 import Register from '../Auth_Components/register/Register'
 import Login from '../Auth_Components/login/Login'
+import { CartContext } from '@/app/context/CartContext'
 
 
 
 export default function Navbar() {
 
+const router = useRouter()
+
 const {getLogin, getRegister, login, register} = useContext<any>(AuthFormContext);
+const {numberOfCartItem, setnumberOfCartItem} = useContext<any>(CartContext)
 
 
   let path = usePathname()
@@ -51,17 +55,17 @@ const {getLogin, getRegister, login, register} = useContext<any>(AuthFormContext
         </div>
         <div className="login flex items-center gap-2 my-10">
           <div className="icons flex gap-5 items-center">
-          <Search className='color-rose ms-3'/>
+          <Search className='color-rose ms-3 cursor-pointer' />
           <div className="heart relative">
-            <Heart className='color-rose'/>
+            <Heart className='color-rose cursor-pointer'/>
             <div className="notification absolute size-5 top-[-17px] end-[-9px] bg-rose text-white flex justify-center items-center  rounded-full">2</div>
           </div>
           <div className="bag relative">
-            <Briefcase className='color-rose'/>
-            <div className="notification absolute size-5 top-[-17px] end-[-9px] bg-rose text-white flex justify-center items-center  rounded-full">2</div>
+            <Briefcase onClick={() => router.push('/cart')} className='color-rose cursor-pointer'/>
+            {numberOfCartItem ? <div className="notification absolute size-5 top-[-17px] end-[-9px] bg-rose text-white flex justify-center items-center  rounded-full">{numberOfCartItem}</div> :null}
           </div>
           <div className="user relative">
-            <User className='color-rose'/>
+            <User className='color-rose cursor-pointer'/>
             <div className="notification absolute size-5 top-[-17px] end-[-9px] bg-rose text-white flex justify-center items-center  rounded-full">2</div>
           </div>
           </div>

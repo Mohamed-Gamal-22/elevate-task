@@ -3,39 +3,19 @@ import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
     interface User {
-        token:string,
-        user : ApplicationUser
+        token: string;
+        user: ApplicationUser;
     }
 
     interface Session {
-        user : ApplicationUser
+        user: ApplicationUser;
+        token: string;
     }
 }
 
-
 declare module "next-auth/jwt" {
-    interface JWT extends User {}
+    interface JWT {
+        user: ApplicationUser;
+        token: string;
+    }
 }
-
-
-
-// ///////////////////////////////
-// export type AuthType = {
-//     message :string,
-//     user : User,
-//     token : string
-// }
-
-// type User = {
-//     _id : string,
-//     firstName:string,
-//     lastName:string,
-//     email:string,
-//     gender :string,
-//     phone:string,
-//     photo:string,
-//     role:string,
-//     wishlist:[],
-//     addresses:[],
-//     createdAt: string,
-// }
