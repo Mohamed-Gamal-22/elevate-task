@@ -10,6 +10,9 @@ import SamplePrevArrow from '../Arrows/prev-arrow/PrevArrow'
 import { Product } from '../../../types/product.type.'
 import StarsRating from './../stars-rating/StarsRating';
 import { CartContext } from '@/app/context/CartContext'
+import { useSession } from "next-auth/react";
+import Swal from 'sweetalert2'
+
 
 
 var settings = {
@@ -51,8 +54,22 @@ var settings = {
 export default function PremiumGifts() {
 
   const { addToCard } = useContext<any>(CartContext)
+  const { data: session } = useSession();
 
-    const [data, setdata] = useState<Product[]>([])
+  const [data, setdata] = useState<Product[]>([])
+
+
+  function checkLogin(id:string){
+    if(!session){
+    Swal.fire({
+      title: "You Are Not Loged In Yet !",
+      icon: "info"
+    });
+    return
+    }
+    addToCard(id)
+  }
+    
 
     async function getBest(){
         let response = await fetch(`http://localhost:3000/api/best-seller`)
@@ -94,7 +111,7 @@ export default function PremiumGifts() {
                             </div>
                             <p className='color-rose'>price : ${product.price}</p>
                         </div>
-                        <div onClick={()=> addToCard(product._id)} className="right bg-[#8C52FF] text-white p-2 rounded-full cursor-pointer">
+                        <div onClick={()=> checkLogin(product._id)} className="right bg-[#8C52FF] text-white p-2 rounded-full cursor-pointer">
                             <BriefcaseBusiness />
                         </div>
                     </div>

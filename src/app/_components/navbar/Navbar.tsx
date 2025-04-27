@@ -70,7 +70,7 @@ export default function Navbar() {
                 </div>
               </div>
 
-              {/* هنا الشرط لو في سيشن يظهر زرار لوج اوت */}
+              {/* if login show signout */}
               {session ? (
                 <Logout />
               ) : (

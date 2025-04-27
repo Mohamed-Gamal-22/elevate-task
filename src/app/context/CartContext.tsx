@@ -65,14 +65,6 @@ export default function CartContextProvider(props: any) {
     if (session?.token) {
       // if user is loged in 
       await getLogedUserCard();
-    } else {
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Welcome to Our Flower Gifts Website 😍 You Can Login Now",
-            showConfirmButton: true,
-            timer: 3500
-          });
     }
   }
 
