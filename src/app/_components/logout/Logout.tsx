@@ -13,7 +13,8 @@ export default function Logout() {
         signOut({
             callbackUrl : "/"
         })
-    }}>Logout, {session?.user.firstName}</Button>
+    }}>Logout</Button> 
+    {/* {session?.user.firstName} */}
   
   </>
 }

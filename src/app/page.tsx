@@ -14,7 +14,6 @@ import ThirdNav from './_components/third-nav/ThirdNav';
 
 export default function Home() {
   return <>
-    <Logout />
     <SecondNav />
     <FirstSlider />
     <FirstGifts />
