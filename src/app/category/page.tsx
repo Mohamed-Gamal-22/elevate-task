@@ -279,7 +279,7 @@ export default function Category() {
             {/* Products Section */}
             <div className="flex w-full lg:w-4/5 flex-wrap p-3 products gap-y-4">
                 {data?.map((product) => (
-                    <Link href={`/product-details/?${product._id}`} key={product._id} className='w-full sm:w-1/2 lg:w-1/3 relative p-3 block'>
+                    <Link href={`/product-details/?id=${product._id}`} key={product._id} className='w-full sm:w-1/2 lg:w-1/3 relative p-3 block'>
                         <div className="main relative">
                             <div className={`relative w-full h-[250px]`}>
                                 <Image
