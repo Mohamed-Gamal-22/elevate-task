@@ -2,34 +2,39 @@
 import { Checkbox } from '@/components/ui/checkbox'
 import { BriefcaseBusiness, Eye, Heart, Star } from 'lucide-react'
 import Image from 'next/image'
-import React, {useContext, useEffect, useState } from 'react'
-import { Product } from '@/types/product.type.';
+import React, { useContext, useEffect, useState } from 'react'
+import { Product } from '@/types/product.type.'
 import StarsRating from '../_components/stars-rating/StarsRating'
 import { CartContext } from '../context/CartContext'
-
+import Link from 'next/link'
 
 export default function Category() {
-
     const { addToCard } = useContext<any>(CartContext)
-
-
     const [data, setdata] = useState<Product[]>([])
-    
-    async function getProducts(){
+    const [showFilters, setShowFilters] = useState(false)
+
+    async function getProducts() {
         let response = await fetch(`http://localhost:3000/api/categories`)
         let data = await response.json()
-        console.log(data.data.products)
         setdata(data.data.products)
-        }
-    
-        useEffect(()=>{
+    }
+
+    useEffect(() => {
         getProducts()
-        }, [])
+    }, [])
 
+    return <>
+        <div className="flex flex-col lg:flex-row items-start min-h-screen p-4">
+            {/* Toggle Button for Small Screens */}
+            <button 
+                className="lg:hidden mb-4 px-4 py-2 bg-[#F82BA9] w-full text-white rounded-md"
+                onClick={() => setShowFilters(prev => !prev)}
+            >
+                {showFilters ? "Hide Filters" : "Show Filters"}
+            </button>
 
-  return <>
-    <div className="flex items-start min-h-screen p-4">
-        <div className="filter w-1/5 ">
+            {/* Filters Section */}
+            <div className={`filter w-full lg:w-1/5 ${showFilters ? "block" : "hidden"} lg:block`}>
             <div className="Category p-4 mb-8">
                 <h2 className='font-bold color-dark border-b-2 pb-3 border-[#757F95]'>Category</h2>
                 <div className="my-4 text-[14px] flex justify-between items-center text-[#757F95]">
@@ -269,42 +274,51 @@ export default function Category() {
                     </div>
                 </div>
             </div>
+            </div>
+
+            {/* Products Section */}
+            <div className="flex w-full lg:w-4/5 flex-wrap p-3 products gap-y-4">
+                {data?.map((product) => (
+                    <Link href={`/product-details/?${product._id}`} key={product._id} className='w-full sm:w-1/2 lg:w-1/3 relative p-3 block'>
+                        <div className="main relative">
+                            <div className={`relative w-full h-[250px]`}>
+                                <Image
+                                    src={product.imgCover}
+                                    alt={product.title}
+                                    layout="fill"
+                                    objectFit="cover"
+                                    className='rounded-[20px]'
+                                />
+                            </div>
+                            <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
+                                <div className='bg-[#F82BA9] p-1 rounded-full'>
+                                    <Eye className='size-8 rounded-full text-white cursor-pointer' />
+                                </div>
+                                <div className='bg-[#F82BA9] p-1 rounded-full'>
+                                    <Heart className='size-8 rounded-full text-white cursor-pointer' />
+                                </div>
+                            </div>
+                        </div>
+                        <h3 className='font-bold'>{product.title}</h3>
+                        <div className="footer flex justify-between items-center">
+                            <div className="left">
+                                <div className="stars flex gap-1 my-2">
+                                    <StarsRating product={product} />
+                                </div>
+                                <p className="color-rose">price : ${product.price}</p>
+                            </div>
+                            <div onClick={(e) => {
+                                e.preventDefault();
+                                addToCard(product._id);
+                            }}
+                                className="right bg-[#8C52FF] text-white p-2 rounded-full cursor-pointer"
+                            >
+                                <BriefcaseBusiness />
+                            </div>
+                        </div>
+                    </Link>
+                ))}
+            </div>
         </div>
-         <div className="flex w-4/5 flex-wrap p-3 products gap-y-4 ">
-            {data?.map((product) => <div className='w-1/3 relative p-3'>
-                    <div className="main relative">
-                        <div className={`relative w-full h-[250px]`}>
-                        <Image
-                            src={product.imgCover}
-                            alt={product.title}
-                            layout="fill" // Fills parent container
-                            objectFit="cover"
-                            className='rounded-[20px]'
-                        />
-                        </div>
-                        <div className="layer flex justify-center items-center gap-10 absolute inset-0 bg-[#F82BA9] bg-opacity-0 rounded-2xl opacity-0 hover:bg-opacity-70 hover:opacity-100 transition-all duration-300">
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Eye className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                            <div className='bg-[#F82BA9] p-1 rounded-full'>
-                                <Heart className='size-8 rounded-full text-white cursor-pointer'/>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold'>{product.title}</h3>
-                    <div className="footer flex justify-between items-center">
-                        <div className="left">
-                            <div className="stars flex gap-1 my-2">
-                                <StarsRating product={product}/>
-                            </div>
-                            <p className="color-rose">price : ${product.price}</p>
-                        </div>
-                        <div onClick={() => addToCard(product._id)} className="right bg-[#8C52FF] text-white p-2 rounded-full cursor-pointer">
-                            <BriefcaseBusiness className=' '/>
-                        </div>
-                    </div>
-                </div>)}
-        </div>
-    </div>
-  </>
+    </>
 }
