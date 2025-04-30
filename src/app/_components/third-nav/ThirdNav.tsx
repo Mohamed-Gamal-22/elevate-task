@@ -2,8 +2,6 @@ import Image from 'next/image'
 import style from "./third-nav.module.css";
 import React from 'react'
 import icon1 from "../../../public/assets/images/Icon (1).png";
-import icon2 from "../../../public/assets/images/Icon (2).png";
-import icon3 from "../../../public/assets/images/Icon (3).png";
 import icon4 from "../../../public/assets/images/Icon.png";
 
 

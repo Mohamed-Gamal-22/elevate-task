@@ -27,7 +27,13 @@ type FormData = z.infer<typeof schema>
 
 export default function SetPassword() {
 
-  const { closeAll} = useContext<any>(AuthFormContext)
+  const context = useContext(AuthFormContext)
+
+  if (!context) {
+    throw new Error("AuthFormContext must be used within an AuthFormContextProvider");
+  }
+
+  const { closeAll } = context
 
   const {
     register,
@@ -65,21 +71,23 @@ export default function SetPassword() {
           text: response?.message || 'Invalid reset attempt',
         })
       }
-    } catch (error) {
+    } catch (error: unknown) {
       Swal.fire({
         icon: 'error',
         title: 'Network Error',
-        text: 'Something went wrong. Please try again later.',
+        text: `${error}` || 'Something went wrong. Please try again later.',
       })
     }
   }
 
-  function handleVerify(e:any){
-    e.stopPropagation()
-    if(Array.from(e.target.classList).includes("h-screen")){
-        closeAll()
+  function handleVerify(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
+  
+    const target = e.target as HTMLElement;
+    if (target.classList.contains("h-screen")) {
+      closeAll();
     }
-}
+  }
 
   return (
     <div onClick={(e) => {handleVerify(e)}} className='h-screen fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-80 z-10 flex items-center justify-center'>

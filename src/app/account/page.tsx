@@ -25,7 +25,7 @@ export default function Account() {
   const {
     register,
     setValue,
-    formState: { errors }
+    // formState: { errors }
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -38,7 +38,7 @@ export default function Account() {
 
   useEffect(() => {
     if (session?.user) {
-      const user = session.user as any
+      const user = session.user;
       setValue("firstName", user.firstName)
       setValue("lastName", user.lastName)
       setValue("email", user.email)

@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Slider from "react-slick";
@@ -18,37 +18,48 @@ import { Button } from "@/components/ui/button";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { CartContext } from "../context/CartContext";
+import { Product } from "@/types/product.type.";
 
 export default function ProductDetails() {
-
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
-  const { addToCard } = useContext<any>(CartContext)
+  const context = useContext(CartContext);
+
+  if (!context) {
+    throw new Error("CartContext must be used within a CartContextProvider");
+  }
+
+  const { addToCard } = context;
 
   const { data: session } = useSession();
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const [quantity, setQuantity] = useState<number>(1);
 
-  useEffect(() => {
-    async function fetchProduct() {
-      try {
-        const res = await fetch(`https://flower.elevateegy.com/api/v1/products/${id}`);
-        const data = await res.json();
-        setProduct(data.product);
-        setSelectedImage(data.product.imgCover);
-      } catch (err) {
-        console.error("Error fetching product:", err);
-      } finally {
-        setLoading(false);
+  const fetchProduct = useCallback(async () => {
+    try {
+      const res = await fetch(`https://flower.elevateegy.com/api/v1/products/${id}`);
+      const data = await res.json();
+      setProduct(data.product);
+      setSelectedImage(data.product.imgCover);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Error fetching product:", err.message);
+      } else {
+        console.error("Unknown error fetching product:", err);
       }
+    } finally {
+      setLoading(false);
     }
-
-    if (id) fetchProduct();
   }, [id]);
 
-  const handleAddToCart = (id) => {
+  useEffect(() => {
+    if (id) fetchProduct();
+  }, [id, fetchProduct]);
+
+  const handleAddToCart = (id: string) => {
     if (!session) {
       Swal.fire({
         icon: "warning",
@@ -59,7 +70,16 @@ export default function ProductDetails() {
       return;
     }
 
-    addToCard(id)
+    if (quantity > 0) {
+      addToCard(id, quantity);
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid Quantity",
+        text: "Quantity must be at least 1.",
+        confirmButtonColor: "#d33",
+      });
+    }
   };
 
   const sliderSettings = {
@@ -119,15 +139,27 @@ export default function ProductDetails() {
 
         {/* Quantity / Size / Color */}
         <div className="info flex flex-wrap gap-4 my-6">
+          {/* Quantity */}
           <div className="quantity w-full sm:w-[30%]">
             <h3 className="my-2 text-[#757F95]">Quantity</h3>
             <div className="flex items-center gap-3">
-              <button className="text-rose-600 text-xl">-</button>
-              <span className="text-rose-600">1</span>
-              <button className="text-rose-600 text-xl">+</button>
+              <button
+                className="text-rose-600 text-xl"
+                onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}
+              >
+                -
+              </button>
+              <span className="text-rose-600">{quantity}</span>
+              <button
+                className="text-rose-600 text-xl"
+                onClick={() => setQuantity((prev) => prev + 1)}
+              >
+                +
+              </button>
             </div>
           </div>
 
+          {/* Size */}
           <div className="size w-full sm:w-[30%]">
             <h3 className="my-2 text-[#757F95]">Size</h3>
             <Select>
@@ -142,6 +174,7 @@ export default function ProductDetails() {
             </Select>
           </div>
 
+          {/* Color */}
           <div className="color w-full sm:w-[30%]">
             <h3 className="my-2 text-[#757F95]">Color</h3>
             <div className="flex gap-2">

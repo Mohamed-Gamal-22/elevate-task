@@ -33,8 +33,13 @@ export async function getCartAction() {
 
     return data;  // return cart data
   } 
-  catch (error: any) {
-    console.error("Get cart error:", error.message);
-    throw new Error(error.message || "Internal Server Error");
+  catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Get cart error:", error.message);
+      throw new Error(error.message);
+    } else {
+      console.error("Get cart unknown error:", error);
+      throw new Error("Internal Server Error");
+    }
   }
 }

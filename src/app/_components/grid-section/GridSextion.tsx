@@ -10,7 +10,7 @@ import Image from 'next/image'
 export default function GridSextion() {
   return <>
     <h3 className={`${style.letter} text-center color-rose font-bold`}>Our Gallery</h3>
-    <h2 className={`text-center font-bold text-[30px] ${style.test}`}>Let's Check Our Photo Gallery</h2>
+    <h2 className={`text-center font-bold text-[30px] ${style.test}`}>Let&lsquo;s Check Our Photo Gallery</h2>
     <div className="mb-20 mt-16 container justify-center w-[90%] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
   <div className="rounded-xl overflow-hidden">
     <Image src={img1} alt="img1" className="w-full h-auto" />

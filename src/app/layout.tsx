@@ -5,10 +5,11 @@ import Footer from "./_components/footer/Footer";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import NextAuthProvider from "./provider/next-auth.provider";
-import Swal from 'sweetalert2/dist/sweetalert2.js'
 import 'sweetalert2/src/sweetalert2.scss'
 import AuthFormContextProvider from "./context/AuthForm";
 import CartContextProvider from "./context/CartContext";
+import Script from 'next/script';
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -37,7 +38,11 @@ export default function RootLayout({
           </AuthFormContextProvider>
         </NextAuthProvider>
 
-        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+        {/* <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js" defer></script> */}
+        <Script
+          src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"
+          strategy="lazyOnload"
+        />
       </body>
     </html>
   );

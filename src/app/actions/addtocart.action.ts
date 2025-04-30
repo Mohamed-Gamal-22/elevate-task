@@ -2,7 +2,7 @@
 
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
 
 type AddToCartInput = {
   product: string;    // product ID
@@ -45,8 +45,13 @@ export async function addToCartAction({ product, quantity }: AddToCartInput) {
 
     return data;  // return data
   } 
-  catch (error: any) {
-    console.error("Add to cart error:", error.message);
-    throw new Error(error.message || "Internal Server Error");
+  catch (error: unknown) {
+    if (error instanceof Error) {
+      // console.error("Add to cart error:", error.message);
+      throw new Error(error.message);
+    } else {
+      console.error("Add to cart unknown error:", error);
+      throw new Error("Internal Server Error");
+    }
   }
 }

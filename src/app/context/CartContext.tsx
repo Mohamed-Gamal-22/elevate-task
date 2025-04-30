@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, ReactNode } from "react";
 import { addToCartAction } from "../actions/addtocart.action";
 import { getCartAction } from '../actions/get-user-card.action';
 import { updateCartQuantityAction } from '../actions/update-cart-product-quantity.action';
@@ -8,11 +8,13 @@ import { removeCartItemAction } from '../actions/remove-product.action';
 import { clearCartAction } from '../actions/clear-cart.action';
 import { getSession } from "next-auth/react";
 import Swal from 'sweetalert2';
+import { CartContextType } from "@/types/cartContext";
 
-export const CartContext = createContext({});
+export const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export default function CartContextProvider(props: any) {
-  const [numberOfCartItem, setnumberOfCartItem] = useState<any>(null);
+export default function CartContextProvider({children}: {children: ReactNode}) {
+
+  const [numberOfCartItem, setnumberOfCartItem] = useState<number | null>(null);
 
   async function addToCard(product: string, quantity: number = 1) {
     const response = await addToCartAction({ product, quantity });
@@ -82,7 +84,7 @@ export default function CartContextProvider(props: any) {
       numberOfCartItem,
       setnumberOfCartItem
     }}>
-      {props.children}
+      {children}
     </CartContext.Provider>
   );
 }

@@ -1,9 +1,7 @@
 import React from 'react'
-import icon1 from "../../../public/assets/images/home.svg.svg"
-import icon2 from "../../../public/assets/images/jewelry.svg.svg"
-import icon3 from "../../../public/assets/images/garment.svg.svg"
+
 import icon4 from "../../../public/assets/images/gift-box.svg.svg"
-import icon5 from "../../../public/assets/images/office.svg.svg"
+
 import style from "./second-nav.module.css"
 import Image from 'next/image'
 

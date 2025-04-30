@@ -14,7 +14,7 @@ import { useSession } from "next-auth/react";
 import Swal from 'sweetalert2'
 import Link from 'next/link'
 
-var settings = {
+const settings = {
   dots: false,
   infinite: true,
   speed: 500,
@@ -52,7 +52,15 @@ var settings = {
 
 export default function PremiumGifts() {
 
-  const { addToCard } = useContext<any>(CartContext)
+  const context = useContext(CartContext)
+
+  if (!context) {
+    throw new Error("Cart must be used within an AuthFormContextProvider");
+  }
+
+  const {addToCard} = context
+
+
   const { data: session } = useSession();
 
   const [data, setdata] = useState<Product[]>([])
@@ -65,12 +73,12 @@ export default function PremiumGifts() {
       });
       return;
     }
-    addToCard(id)
+    addToCard(id, 1)
   }
 
   async function getBest() {
-    let response = await fetch(`http://localhost:3000/api/best-seller`)
-    let data = await response.json()
+    const response = await fetch(`http://localhost:3000/api/best-seller`)
+    const data = await response.json()
     setdata(data.data.bestSeller)
   }
 
@@ -114,7 +122,7 @@ export default function PremiumGifts() {
                   </div>
                   <div
                     onClick={(e) => {
-                      e.preventDefault(); // Stop the link navigation
+                      e.preventDefault(); // Stop the link from navigation
                       checkLogin(product._id);
                     }}
                     className="right bg-[#8C52FF] text-white p-2 rounded-full cursor-pointer"

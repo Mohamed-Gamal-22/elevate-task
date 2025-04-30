@@ -23,10 +23,20 @@ export default function Navbar() {
   const path = usePathname()
 
   const { data: session } = useSession()
-  const { getLogin, getRegister, login, register, forget, password, newPassword } = useContext<any>(AuthFormContext);
-  const { numberOfCartItem } = useContext<any>(CartContext)
+  const authcontext = useContext(AuthFormContext);
+  const cartcontext = useContext(CartContext)
 
-console.log("passsss", password)
+  if (!authcontext) {
+    throw new Error("AuthFormContext must be used within an AuthFormContextProvider");
+  }
+  if (!cartcontext) {
+    throw new Error("Cart must be used within an AuthFormContextProvider");
+  }
+
+  const { getLogin, login, register, forget, password, newPassword } = authcontext
+  const { numberOfCartItem } = cartcontext
+
+// console.log("passsss", password)
 
   return (
     <>

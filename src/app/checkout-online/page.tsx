@@ -29,7 +29,7 @@ export default function CheckoutOnline() {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
+    // setValue,
   } = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
   })
@@ -58,7 +58,7 @@ export default function CheckoutOnline() {
       )
 
       const result = await res.json()
-      console.log(result)
+      // console.log(result)
 
       if (result.message == "success") {
         Swal.fire({

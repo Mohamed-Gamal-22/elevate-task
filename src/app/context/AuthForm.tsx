@@ -1,11 +1,16 @@
 "use client"
 
-import { createContext, useState } from "react"
+import { createContext, useState, ReactNode } from "react"
+import { AuthFormContextType } from "@/types/authFormContext";
+
+type Props = {
+    children: ReactNode;
+  };
 
 
-export const AuthFormContext = createContext({});
+export const AuthFormContext = createContext<AuthFormContextType | null>(null);
 
-export default function AuthFormContextProvider(props : any){
+export default function AuthFormContextProvider({children} : Props){
 
 
     const [login, setShowLogin] = useState(false);
@@ -58,6 +63,6 @@ export default function AuthFormContextProvider(props : any){
 
 
     return <AuthFormContext.Provider value={{getLogin, getRegister, login, register, closeAll, forget, getForgetPassword, password, getSetPassword, newPassword, setNewPass}}>
-        {props.children}
+        {children}
     </AuthFormContext.Provider>
 }

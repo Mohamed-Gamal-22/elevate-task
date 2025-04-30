@@ -1,4 +1,4 @@
-import { NextAuthOptions, User } from "next-auth"
+import { NextAuthOptions} from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 
 // i will use it again so made it in seprated file

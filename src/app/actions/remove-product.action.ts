@@ -27,16 +27,15 @@ export async function removeCartItemAction({ cartItemId }: RemoveCartItemInput) 
 
     const data = await response.json();
 
-    if (!response.ok) {
-      console.error("Failed to remove cart item:");
-      console.error("Status:", response.status);
-      console.error("Response:", data);
-      throw new Error(data.message || "Something went wrong while removing cart item.");
-    }
 
     return data;
-  } catch (error: any) {
-    console.error("Remove cart item error:", error.message);
-    throw new Error(error.message || "Internal Server Error");
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Remove cart item error:", error.message);
+      throw new Error(error.message);
+    } else {
+      console.error("Remove cart item unknown error:", error);
+      throw new Error("Internal Server Error");
+    }
   }
 }

@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { RegisterFields, registerSchema } from '@/lib/schemes/authSchema'
@@ -13,7 +13,13 @@ import { AuthFormContext } from '@/app/context/AuthForm'
 
 export default function Register() {
 
-  const { closeAll, getLogin } = useContext<any>(AuthFormContext);
+  const context = useContext(AuthFormContext);
+
+  if (!context) {
+    throw new Error("AuthFormContext must be used within an AuthFormContextProvider");
+  }
+
+  const { closeAll, getLogin } = context
 
 
   const form = useForm<RegisterFields>({
@@ -30,7 +36,7 @@ export default function Register() {
   });
 
   async function handleRegister(values: RegisterFields) {
-    console.log(values)
+    // console.log(values)
     const response = await registerUser(values);
     console.log(response)
     if(response.success) {
@@ -51,12 +57,14 @@ export default function Register() {
 
   }
 
-  function closeRegister(e:any){
-    e.stopPropagation()
-    if(Array.from(e.target.classList).includes("h-screen")){
-        closeAll()
+  function closeRegister(e: React.MouseEvent<HTMLDivElement>) {
+    e.stopPropagation();
+  
+    const target = e.target as HTMLElement;
+    if (target.classList.contains("h-screen")) {
+      closeAll();
     }
-}
+  }
 
 
 

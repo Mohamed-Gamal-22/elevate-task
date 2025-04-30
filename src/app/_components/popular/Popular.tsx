@@ -12,7 +12,14 @@ import Link from 'next/link'
 
 export default function Popular() {
 
-  const { addToCard } = useContext<any>(CartContext)
+  const context = useContext(CartContext)
+
+  if (!context) {
+    throw new Error("AuthFormContext must be used within an AuthFormContextProvider");
+  }
+
+  const {addToCard} = context
+
   const { data: session } = useSession()
 
   function checkLogin(id: string) {
@@ -23,14 +30,14 @@ export default function Popular() {
       })
       return
     }
-    addToCard(id)
+    addToCard(id, 1)
   }
 
   const [data, setdata] = useState<Product[]>([])
 
   async function getPopular() {
-    let response = await fetch(`http://localhost:3000/api/home`)
-    let data = await response.json()
+    const response = await fetch(`http://localhost:3000/api/home`)
+    const data = await response.json()
     setdata(data.data.products)
   }
 
@@ -82,7 +89,7 @@ export default function Popular() {
               </div>
               <div
                 onClick={(e) => {
-                  e.preventDefault(); // stop the link from being triggered
+                  e.preventDefault(); // stop the link
                   checkLogin(product._id);
                 }}
                 className="right bg-[#8C52FF] text-white p-2 rounded-full cursor-pointer"

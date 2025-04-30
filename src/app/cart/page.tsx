@@ -9,12 +9,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CartContext } from '../context/CartContext';
 import Swal from 'sweetalert2';
+import { CartDetailsType, CartItem } from '@/types/cardDetails';
 
 export default function Cart() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const { getLogedUserCard, updateProductQuantity, removeSpecificProduct, clearUserCard } = useContext<any>(CartContext);
-  const [CartDetails, setCartDetails] = useState<any>(null);
+  const cartcontext = useContext(CartContext);
+
+  if (!cartcontext) {
+    throw new Error("CartContext must be used within an AuthFormContextProvider");
+  }
+
+  const { getLogedUserCard, updateProductQuantity, removeSpecificProduct, clearUserCard } = cartcontext
+
+
+  const [CartDetails, setCartDetails] = useState<CartDetailsType | null>(null);
 
   async function prepareData() {
     const response = await getLogedUserCard();
@@ -123,7 +132,7 @@ export default function Cart() {
               </tr>
             </thead>
             <tbody>
-              {CartDetails.cartItems.map((item: any) => (
+              {CartDetails.cartItems.map((item: CartItem) => (
                 <tr key={item._id} className="bg-white border-b hover:bg-gray-50">
                   <td className="p-4">
                     <Image

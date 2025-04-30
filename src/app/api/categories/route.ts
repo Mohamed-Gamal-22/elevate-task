@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(req:NextRequest){
+export async function GET(){
 
 
 // /best-seller will change with product of spicific category
 
-let response = await fetch(`${process.env.API}/home`);
-let data = await response.json()
+const response = await fetch(`${process.env.API}/home`);
+const data = await response.json()
 
     return NextResponse.json({data})
 }

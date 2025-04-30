@@ -1,18 +1,13 @@
 "use client"
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import React, { useContext } from 'react'
 import {
     Card,
     CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
   } from "@/components/ui/card"
 import { useForm } from 'react-hook-form'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { LoginFields, loginScema } from '@/lib/schemes/authSchema'
 import {zodResolver} from "@hookform/resolvers/zod"
 import { signIn } from "next-auth/react"
@@ -20,7 +15,13 @@ import { AuthFormContext } from '@/app/context/AuthForm'
 
 export default function Login() {
 
-    const { closeAll, getRegister, getForgetPassword } = useContext<any>(AuthFormContext);
+    const context = useContext(AuthFormContext);
+
+    if (!context) {
+        throw new Error('AuthFormContext must be used within an AuthFormProvider');
+      }
+
+    const { closeAll, getRegister, getForgetPassword } = context
 
 
     // mohamedgamal@gmail.com
@@ -37,15 +38,18 @@ export default function Login() {
         resolver :zodResolver(loginScema)
     })
 
-    function closeLogin(e:any){
-        e.stopPropagation()
-        if(Array.from(e.target.classList).includes("h-screen")){
-            closeAll()
+    function closeLogin(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        e.stopPropagation();
+        
+        const target = e.target as HTMLElement;
+      
+        if (target && target.classList.contains("h-screen")) {
+          closeAll();
         }
-    }
+      }
 
-    async function submitForm(values:any){
-        console.log(values)
+    async function submitForm(values:{email:string, password:string}){
+        // console.log(values)
         const res = await signIn("credentials", {
             callbackUrl: "/",
             redirect: false,

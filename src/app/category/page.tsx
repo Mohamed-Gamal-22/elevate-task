@@ -9,13 +9,23 @@ import { CartContext } from '../context/CartContext'
 import Link from 'next/link'
 
 export default function Category() {
-    const { addToCard } = useContext<any>(CartContext)
+    const cartContext = useContext(CartContext);
+
+    if (!cartContext) {
+        throw new Error("CartContext must be used within CartContextProvider");
+    }
+    
+      const { addToCard } = cartContext;
+
+
+
+
     const [data, setdata] = useState<Product[]>([])
     const [showFilters, setShowFilters] = useState(false)
 
     async function getProducts() {
-        let response = await fetch(`http://localhost:3000/api/categories`)
-        let data = await response.json()
+        const response = await fetch(`http://localhost:3000/api/categories`)
+        const data = await response.json()
         setdata(data.data.products)
     }
 
@@ -309,7 +319,7 @@ export default function Category() {
                             </div>
                             <div onClick={(e) => {
                                 e.preventDefault();
-                                addToCard(product._id);
+                                addToCard(product._id, 1);
                             }}
                                 className="right bg-[#8C52FF] text-white p-2 rounded-full cursor-pointer"
                             >

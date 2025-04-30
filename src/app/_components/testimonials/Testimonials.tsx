@@ -10,7 +10,7 @@ import Slider from "react-slick";
 import SampleNextArrow from '../Arrows/next-arrow/NextArrow'
 import SamplePrevArrow from '../Arrows/prev-arrow/PrevArrow'
 
-var settings = {
+const settings = {
     dots: false,
     infinite: true,
     speed: 500,

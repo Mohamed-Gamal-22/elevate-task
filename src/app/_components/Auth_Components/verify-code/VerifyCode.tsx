@@ -17,8 +17,14 @@ type FormData = z.infer<typeof schema>
 
 export default function VerifyCode() {
 
+  const context = useContext(AuthFormContext);
 
-  const {setNewPass, closeAll} = useContext<any>(AuthFormContext)
+  if (!context) {
+    throw new Error('AuthFormContext must be used within an AuthFormProvider');
+  }
+
+
+  const {setNewPass, closeAll} = context
 
   const {
     register,
@@ -52,21 +58,28 @@ export default function VerifyCode() {
       } else {
         throw new Error(result.message || 'Invalid reset code')
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      let message = 'Please enter a valid 6-digit code';
+      
+      if (error instanceof Error) {
+        message = error.message;
+      }
+    
       Swal.fire({
         icon: 'error',
         title: 'Invalid Code',
-        text: error.message || 'Please enter a valid 6-digit code',
-      })
+        text: message,
+      });
     }
   }
 
-  function handleVerify(e:any){
-    e.stopPropagation()
-    if(Array.from(e.target.classList).includes("h-screen")){
-        closeAll()
+  function handleVerify(e: React.MouseEvent<HTMLElement>) {
+    e.stopPropagation();
+  
+    if ((e.target as HTMLElement).classList.contains("h-screen")) {
+      closeAll();
     }
-}
+  }
 
   return (
     <div onClick={(e) => {handleVerify(e)}} className='h-screen fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-80 z-10 flex items-center justify-center'>
@@ -83,7 +96,7 @@ export default function VerifyCode() {
           )}
 
           <p className='text-end my-8 text-[#313131]'>
-            Didn't Receive The Code?{' '}
+            Didn&apos;t Receive The Code?{' '}
             <span className='color-rose underline cursor-pointer'>Resend</span>
           </p>
 

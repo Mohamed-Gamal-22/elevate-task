@@ -42,8 +42,13 @@ export async function updateCartQuantityAction({ cartItemId, newQuantity }: Upda
 
     return data;  // return updated cart item data
   } 
-  catch (error: any) {
-    console.error("Update cart quantity error:", error.message);
-    throw new Error(error.message || "Internal Server Error");
+  catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Update cart quantity error:", error.message);
+      throw new Error(error.message);
+    } else {
+      console.error("Update cart quantity unknown error:", error);
+      throw new Error("Internal Server Error");
+    }
   }
 }

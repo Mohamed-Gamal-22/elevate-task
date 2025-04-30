@@ -9,7 +9,7 @@ import { useSession } from 'next-auth/react'
 import { Inter } from 'next/font/google'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Swal from 'sweetalert2'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
@@ -67,7 +67,7 @@ export default function Checkout() {
           text: 'Your order has been successfully created.',
         })
         setTimeout(() => {
-          router.push('/orders')
+          router.push('/allOrders')
         }, 2500)
       } else {
         Swal.fire({
@@ -76,13 +76,18 @@ export default function Checkout() {
           text: result?.message || 'Something went wrong. Please try again.',
         })
       }
-    } catch (error) {
+    } catch (error: unknown) {
       Swal.fire({
         icon: 'error',
         title: 'Network Error',
         text: 'Could not connect to the server. Please try again later.',
-      })
-      console.error('Checkout Error:', error)
+      });
+    
+      if (error instanceof Error) {
+        console.error('Checkout Error:', error.message);
+      } else {
+        console.error('Checkout Error:', error);
+      }
     }
   }
 

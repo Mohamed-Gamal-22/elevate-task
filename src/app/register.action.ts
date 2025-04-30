@@ -1,8 +1,9 @@
 'use server'
 
+import { RegisterFormData } from "@/types/register";
 import { JSON_HEADER } from "../lib/constants/api.constant";
 
-export async function registerUser(data: any) {
+export async function registerUser(data: RegisterFormData) {
   try {
     const res = await fetch(`${process.env.API}/auth/signup`, {
       method: 'POST',
@@ -23,10 +24,15 @@ export async function registerUser(data: any) {
       success: true,
       data: result
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    let message = 'Unknown error';
+    if (error instanceof Error) {
+      message = error.message;
+    }
+  
     return {
       success: false,
-      error: error.message || 'Unknown error'
+      error: message
     };
   }
 }

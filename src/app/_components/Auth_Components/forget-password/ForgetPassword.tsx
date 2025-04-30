@@ -17,7 +17,13 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 export default function ForgetPassword() {
-  const { closeAll, getSetPassword } = useContext<any>(AuthFormContext)
+  const context = useContext(AuthFormContext)
+
+  if (!context) {
+    throw new Error("AuthFormContext must be used within an AuthFormContextProvider");
+  }
+
+  const { closeAll, getSetPassword } = context
 
   const {
     register,
@@ -40,7 +46,7 @@ export default function ForgetPassword() {
       const result = await res.json()
 
       if (res.ok) {
-        console.log(result)
+        // console.log(result)
         Swal.fire({
           icon: 'success',
           title: 'Confirmation Message',
@@ -55,21 +61,22 @@ export default function ForgetPassword() {
           text: result.message || 'Please enter a valid email address.',
         })
       }
-    } catch (err) {
+    } catch (err:unknown) {
       Swal.fire({
         icon: 'error',
         title: 'Error',
-        text: 'Something went wrong. Please try again later.',
+        text: `${err}` || 'Something went wrong. Please try again later.',
       })
     }
   }
 
-  const closeForget = (e: any) => {
-    e.stopPropagation()
-    if (Array.from(e.target.classList).includes("h-screen")) {
-      closeAll()
+  const closeForget = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+  
+    if ((e.target as HTMLElement).classList.contains("h-screen")) {
+      closeAll();
     }
-  }
+  };
 
   return (
     <div

@@ -24,16 +24,15 @@ export async function clearCartAction() {
 
     const data = await response.json();
 
-    if (!response.ok) {
-      console.error("Failed to clear cart:");
-      console.error("Status:", response.status);
-      console.error("Response:", data);
-      throw new Error(data.message || "Something went wrong while clearing the cart.");
-    }
 
     return data;
-  } catch (error: any) {
-    console.error("Clear cart error:", error.message);
-    throw new Error(error.message || "Internal Server Error");
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      // console.error("Clear cart error:", error.message);
+      throw new Error(error.message);
+    } else {
+      console.error("Clear cart unknown error:", error);
+      throw new Error("Internal Server Error");
+    }
   }
 }

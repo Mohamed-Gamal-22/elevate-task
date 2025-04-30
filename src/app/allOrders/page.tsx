@@ -1,16 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import Image from 'next/image';
 import Swal from 'sweetalert2';
+import Image from 'next/image';
+import { Order } from '@/types/order';
+import { CartItem } from '@/types/cardDetails';
 
 export default function Orders() {
   const { data: session } = useSession();
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchOrders = async () => {
+
+
+  const fetchOrders = useCallback( async () => {
     try {
       const token = session?.token;
       const res = await fetch('https://flower.elevateegy.com/api/v1/orders', {
@@ -25,25 +29,33 @@ export default function Orders() {
       } else {
         Swal.fire('Error', 'Failed to fetch orders', 'error');
       }
-    } catch (error) {
-      Swal.fire('Error', 'Something went wrong while fetching orders', 'error');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error('Error details:', error.message);
+        Swal.fire('Error', 'Something went wrong while fetching orders: ' + error.message, 'error');
+      } else {
+        console.error('Unknown error:', error);
+        Swal.fire('Error', 'Something went wrong while fetching orders', 'error');
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }, [session?.token])
+
+
 
   useEffect(() => {
     if (session?.token) {
       fetchOrders();
     }
-  }, [session]);
+  }, [session, fetchOrders]);
 
   if (loading) {
     return <p className="w-[80%] mx-auto p-10 text-center mt-10 text-lg font-semibold bg-red-400 text-white">Loading orders...</p>;
   }
 
   if (orders.length === 0) {
-    return <p className="text-center mt-10 p-16 text-lg bg-red-400 font-semibold text-white">No orders found.</p>;
+    return <p className="w-[80%] mx-auto text-center mt-10 p-10 text-lg bg-red-400 font-semibold text-white">No orders found.</p>;
   }
 
   return (
@@ -68,9 +80,11 @@ export default function Orders() {
       </p>
 
       <div className="space-y-2 mt-4">
-        {order.orderItems.map((item: any) => (
+        {order.orderItems.map((item: CartItem) => (
           <div key={item._id} className="flex items-center gap-4">
-            <img
+            <Image
+              width={300}
+              height={400}
               src={item.product.imgCover}
               alt={item.product.title}
               className="w-16 h-16 rounded object-cover"
