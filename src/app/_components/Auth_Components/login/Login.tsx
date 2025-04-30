@@ -20,7 +20,7 @@ import { AuthFormContext } from '@/app/context/AuthForm'
 
 export default function Login() {
 
-    const { closeAll, getRegister } = useContext<any>(AuthFormContext);
+    const { closeAll, getRegister, getForgetPassword } = useContext<any>(AuthFormContext);
 
 
     // mohamedgamal@gmail.com
@@ -57,6 +57,11 @@ export default function Login() {
         }else{
             console.log(res?.error)
         }
+    }
+
+    async function handleForget(){
+        console.log("forget please")
+        getForgetPassword()
     }
 
   return <>
@@ -116,7 +121,7 @@ export default function Login() {
                                         </div>
                                     </FormItem>}
                                 /> */}
-                                <span className='color-rose underline'>Forget Password</span>
+                                <span className='color-rose underline cursor-pointer' onClick={ () => handleForget()}>Forget Password</span>
                             </div>
 
                             {/* change to Register */}

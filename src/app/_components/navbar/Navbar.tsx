@@ -12,6 +12,9 @@ import Login from '../Auth_Components/login/Login'
 import { CartContext } from '@/app/context/CartContext'
 import { useSession } from 'next-auth/react'
 import Logout from '../logout/Logout'
+import ForgetPassword from '../Auth_Components/forget-password/ForgetPassword'
+import VerifyCode from '../Auth_Components/verify-code/VerifyCode'
+import SetPassword from '../Auth_Components/set-password/SetPassword'
 
 
 
@@ -20,13 +23,18 @@ export default function Navbar() {
   const path = usePathname()
 
   const { data: session } = useSession()
-  const { getLogin, getRegister, login, register } = useContext<any>(AuthFormContext);
+  const { getLogin, getRegister, login, register, forget, password, newPassword } = useContext<any>(AuthFormContext);
   const { numberOfCartItem } = useContext<any>(CartContext)
+
+console.log("passsss", password)
 
   return (
     <>
       {login && <Login />}
       {register && <Register />}
+      {forget && <ForgetPassword />}
+      {password && <VerifyCode />}
+      {newPassword && <SetPassword />}
 
       <nav className="bg-white dark:bg-gray-900 w-full z-20 top-0 start-0 dark:border-gray-600">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
