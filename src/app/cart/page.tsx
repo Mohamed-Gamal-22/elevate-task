@@ -67,17 +67,14 @@ export default function Cart() {
     }
   }
 
-  // check if user Loged in or not
   useEffect(() => {
     const checkAuth = async () => {
+      if (!session) return;
       const token = session?.token;
       if (!token) {
         Swal.fire({
           title: "You Are Not Logged In yet !",
-          // showDenyButton: true,
-          // showCancelButton: true,
           confirmButtonText: "Got It",
-          // denyButtonText: `Don't save`
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire("Please Login To See Your Cart !", "", "info");
@@ -90,7 +87,7 @@ export default function Cart() {
         await prepareData();
       }
     };
-  
+
     checkAuth();
   }, [session]);
 
@@ -111,11 +108,11 @@ export default function Cart() {
   }
 
   return (
-    <div className="container w-[80%] mx-auto flex justify-between">
-      <div className="my-table">
+    <div className="container w-[80%] mx-auto flex flex-col lg:flex-row justify-between gap-6">
+      <div className="my-table w-full lg:w-2/3">
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table className="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <table className="w-full text-sm text-center rtl:text-right text-gray-500">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
                 <th className="px-16 py-3">Image</th>
                 <th className="px-6 py-3">Product Name</th>
@@ -127,7 +124,7 @@ export default function Cart() {
             </thead>
             <tbody>
               {CartDetails.cartItems.map((item: any) => (
-                <tr key={item._id} className="bg-white border-b border-gray-200 hover:bg-gray-50">
+                <tr key={item._id} className="bg-white border-b hover:bg-gray-50">
                   <td className="p-4">
                     <Image
                       width={64}
@@ -137,40 +134,40 @@ export default function Cart() {
                       alt={item.product.title}
                     />
                   </td>
-                  <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                  <td className="px-6 py-4 font-semibold text-gray-900">
                     {item.product.title}
                   </td>
-                  <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                  <td className="px-6 py-4 font-semibold text-gray-900">
                     ${item.price}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <button
                         onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
-                        className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 color-rose focus:outline-none"
+                        className="inline-flex items-center justify-center p-1 me-3 h-6 w-6 text-[#F82BA9]"
                       >
-                        <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                        <svg className="w-3 h-3" fill="none" viewBox="0 0 18 2">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M1 1h16" />
                         </svg>
                       </button>
-                      <span className="color-rose">{item.quantity}</span>
+                      <span className="text-[#F82BA9]">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
-                        className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium color-rose"
+                        className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-[#F82BA9]"
                       >
-                        <svg className="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                        <svg className="w-3 h-3" fill="none" viewBox="0 0 18 18">
                           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 1v16M1 9h16" />
                         </svg>
                       </button>
                     </div>
                   </td>
-                  <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+                  <td className="px-6 py-4 font-semibold text-gray-900">
                     ${item.price * item.quantity}
                   </td>
                   <td className="px-6 py-4">
                     <CircleX
                       onClick={() => removeItem(item.product._id)}
-                      className="color-rose cursor-pointer"
+                      className="text-[#F82BA9] cursor-pointer"
                     />
                   </td>
                 </tr>
@@ -179,49 +176,69 @@ export default function Cart() {
           </table>
         </div>
 
-        <div className="flex items-center justify-between">
-          <form className="my-10 flex items-center w-fit relative">
-            <Input className="w-[400px]" placeholder="Enter Your Email" />
-            <Button className="text-white py-[10px] px-[20px] rounded-[30px] absolute top-0 end-[-50px]">
+        <div className="flex items-center justify-between mt-6 flex-wrap gap-4">
+          <form className="flex items-center w-full sm:w-auto relative">
+            <Input className="w-[300px] " placeholder="Enter Your Email" />
+            <Button className="text-white py-[10px] px-[20px] rounded-[30px] absolute end-[50px] top-0 md:end-[-50px] me-8">
               Apply coupon <ArrowRight />
             </Button>
           </form>
-          <Button className="text-white bg-rose py-[10px] px-[20px] rounded-[10px]">
+          <div className="flex flex-wrap gap-3">
+          <Button
+            onClick={() =>
+              router.push(
+                `/checkout?subtotal=${CartDetails?.totalPrice}&discount=${CartDetails?.discount}&shipping=0&total=${CartDetails?.totalPriceAfterDiscount}`
+              )
+            }
+            className="text-white bg-[#F82BA9] py-[20px] px-[20px] rounded-[10px]"
+          >
             <ArrowLeft />
-            Continue Shopping
+              Cash On Delivery !
           </Button>
+          <Button
+            onClick={() =>
+              router.push(
+                `/checkout-online?subtotal=${CartDetails?.totalPrice}&discount=${CartDetails?.discount}&shipping=0&total=${CartDetails?.totalPriceAfterDiscount}`
+              )
+            }
+            className="text-white bg-[#F82BA9] py-[20px] px-[20px] rounded-[10px]"
+          >
+            <ArrowLeft />
+            Online Payment !
+          </Button>
+          </div>
         </div>
 
         <div>
           <Button
             onClick={() => clearCart()}
-            className="mt-8 text-white bg-red-500 py-[18px] px-[20px] rounded-[20px] w-full"
+            className="mt-8 text-white bg-[#F82BA9] py-[18px] px-[20px] rounded-[20px] w-full"
           >
             Clear Cart
           </Button>
         </div>
       </div>
 
-      <div className="cart-details">
-        <h2 className="font-bold my-8">Cart Summary</h2>
-        <div className="item flex justify-between gap-20 my-2">
+      <div className="cart-details w-full lg:w-1/3">
+        <h2 className="font-bold my-8 text-xl">Cart Summary</h2>
+        <div className="flex justify-between my-2">
           <span className="font-bold">Sub Total:</span>
           <span className="text-[#757F95]">${CartDetails.totalPrice}</span>
         </div>
-        <div className="item flex justify-between gap-20 my-2">
+        <div className="flex justify-between my-2">
           <span className="font-bold">Discount:</span>
           <span className="text-[#757F95]">%{CartDetails.discount}</span>
         </div>
-        <div className="item flex justify-between gap-20 my-2">
+        <div className="flex justify-between my-2">
           <span className="font-bold">Shipping:</span>
           <span className="text-[#757F95]">Free</span>
         </div>
-        <div className="item flex justify-between gap-20 my-2">
+        <div className="flex justify-between my-2">
           <span className="font-bold">Total:</span>
-          <span className="color-rose font-bold">${CartDetails.totalPriceAfterDiscount}</span>
+          <span className="text-[#F82BA9] font-bold">${CartDetails.totalPriceAfterDiscount}</span>
         </div>
         <div className="text-end">
-          <Button className="text-white bg-rose py-[10px] px-[20px] rounded-[10px] my-8">
+          <Button className="text-white bg-[#F82BA9] py-[10px] px-[20px] rounded-[10px] my-8">
             Discover More <ArrowRight />
           </Button>
         </div>

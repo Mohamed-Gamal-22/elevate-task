@@ -64,7 +64,7 @@ console.log("passsss", password)
               <div className="icons flex gap-5 items-center">
                 <Search className='color-rose ms-3 cursor-pointer' />
                 <div className="heart relative">
-                  <Heart className='color-rose cursor-pointer'/>
+                  <Heart onClick={() => router.push('/favorite')} className='color-rose cursor-pointer'/>
                   <div className="notification absolute size-5 top-[-17px] end-[-9px] bg-rose text-white flex justify-center items-center rounded-full">2</div>
                 </div>
                 <div className="bag relative">
@@ -73,9 +73,9 @@ console.log("passsss", password)
                     <div className="notification absolute size-5 top-[-17px] end-[-9px] bg-rose text-white flex justify-center items-center rounded-full">{numberOfCartItem}</div>
                   ) : null}
                 </div>
-                <div className="user relative me-3" title="Profile" onClick={() => router.push("/account")}>
+                {session ? <div className="user relative me-3" title="Profile" onClick={() => router.push("/account")}>
                   <User className='color-rose cursor-pointer'/>
-                </div>
+                </div> : ""}
               </div>
 
               {/* if login show signout */}
