@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import Slider from "react-slick";
 import { BriefcaseBusiness, Heart, Play } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
 import {
   Select,
   SelectContent,
@@ -15,14 +17,19 @@ import {
 import { Button } from "@/components/ui/button";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { CartContext } from "../context/CartContext";
 
 export default function ProductDetails() {
+
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
+  const { addToCard } = useContext<any>(CartContext)
+
+  const { data: session } = useSession();
   const [product, setProduct] = useState<any>(null);
-  const [mainImage, setMainImage] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<string>("");
 
   useEffect(() => {
     async function fetchProduct() {
@@ -30,7 +37,7 @@ export default function ProductDetails() {
         const res = await fetch(`https://flower.elevateegy.com/api/v1/products/${id}`);
         const data = await res.json();
         setProduct(data.product);
-        setMainImage(data.product.imgCover); // نخلي الصورة الرئيسية
+        setSelectedImage(data.product.imgCover);
       } catch (err) {
         console.error("Error fetching product:", err);
       } finally {
@@ -38,17 +45,29 @@ export default function ProductDetails() {
       }
     }
 
-    if (id) {
-      fetchProduct();
-    }
+    if (id) fetchProduct();
   }, [id]);
 
+  const handleAddToCart = (id) => {
+    if (!session) {
+      Swal.fire({
+        icon: "warning",
+        title: "Login Required",
+        text: "Please login to add items to your cart.",
+        confirmButtonColor: "#d33",
+      });
+      return;
+    }
+
+    addToCard(id)
+  };
+
   const sliderSettings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
+    infinite: false,
+    arrows: true,
+    dots: false,
   };
 
   if (loading) return <div className="text-center py-20">Loading...</div>;
@@ -57,46 +76,45 @@ export default function ProductDetails() {
   return (
     <div className="container w-[80%] mx-auto flex flex-wrap">
       {/* Images Section */}
-      <div className="image w-full md:w-1/3 p-4 relative">
-        <div className="border rounded-md overflow-hidden">
+      <div className="image w-full md:w-1/3 p-4">
+        <div className="relative mb-4">
           <Image
-            src={mainImage}
-            alt="Main product image"
+            src={selectedImage}
+            alt="Selected Product Image"
             width={500}
             height={500}
             className="w-full h-[400px] object-contain"
           />
+          <Play className="absolute top-0 right-0 cursor-pointer text-slate-800" />
         </div>
 
-        <div className="mt-4">
-          <Slider {...sliderSettings}>
-            {[product.imgCover, ...product.images].map((img: string, i: number) => (
-              <div key={i} className="px-1 cursor-pointer" onClick={() => setMainImage(img)}>
-                <Image
-                  src={img}
-                  alt={`thumbnail-${i}`}
-                  width={100}
-                  height={100}
-                  className="w-full h-[100px] object-cover border rounded-md"
-                />
-              </div>
-            ))}
-          </Slider>
-        </div>
-
-        <Play className="absolute top-0 right-0 cursor-pointer text-slate-800" />
+        {/* Thumbnail Slider */}
+        <Slider {...sliderSettings}>
+          {[product.imgCover, ...product.images].map((img: string, index: number) => (
+            <div key={index} className="px-1">
+              <Image
+                src={img}
+                alt={`Thumbnail ${index}`}
+                width={100}
+                height={100}
+                className={`cursor-pointer border ${
+                  selectedImage === img ? "border-rose-600" : "border-transparent"
+                }`}
+                onClick={() => setSelectedImage(img)}
+              />
+            </div>
+          ))}
+        </Slider>
       </div>
 
-      {/* Product Details */}
+      {/* Details Section */}
       <div className="details w-full md:w-2/3 px-4">
         <h2 className="text-dark text-[25px] font-bold">{product.title}</h2>
-
         <div className="flex gap-2 items-center my-4">
           <span className="text-[18px] text-[#757F95] line-through">${product.price}</span>
           <span className="text-[23px] font-[500] text-rose-600">${product.priceAfterDiscount}</span>
           <span className="text-[15px] font-[500] text-[#F05454]">{product.discount}% off</span>
         </div>
-
         <p className="leading-7 text-[#757F95]">{product.description}</p>
 
         {/* Quantity / Size / Color */}
@@ -144,7 +162,10 @@ export default function ProductDetails() {
 
         {/* Add to Cart */}
         <div className="flex items-center gap-4 mt-6">
-          <Button className="bg-rose-600 text-white flex items-center gap-2 px-4 py-2 rounded-md">
+          <Button
+            className="bg-rose-600 text-white flex items-center gap-2 px-4 py-2 rounded-md"
+            onClick={() => handleAddToCart(product._id)}
+          >
             <BriefcaseBusiness className="w-4 h-4" /> Add to Cart
           </Button>
           <div className="w-9 h-9 flex items-center justify-center bg-rose-600 text-white rounded-full cursor-pointer">

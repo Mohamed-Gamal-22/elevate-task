@@ -14,6 +14,7 @@ import { useSession } from 'next-auth/react'
 import Logout from '../logout/Logout'
 
 
+
 export default function Navbar() {
   const router = useRouter()
   const path = usePathname()
@@ -64,9 +65,8 @@ export default function Navbar() {
                     <div className="notification absolute size-5 top-[-17px] end-[-9px] bg-rose text-white flex justify-center items-center rounded-full">{numberOfCartItem}</div>
                   ) : null}
                 </div>
-                <div className="user relative me-3">
+                <div className="user relative me-3" title="Profile" onClick={() => router.push("/account")}>
                   <User className='color-rose cursor-pointer'/>
-                  <div className="notification absolute size-5 top-[-17px] end-[-9px] bg-rose text-white flex justify-center items-center rounded-full">2</div>
                 </div>
               </div>
 
