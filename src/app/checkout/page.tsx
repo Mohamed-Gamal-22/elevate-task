@@ -159,7 +159,7 @@ export default function Checkout() {
             </div>
           </div>
           <div className="text-end mt-6">
-            <Button className="bg-rose text-white py-2 px-4 rounded">
+            <Button onClick={() => router.push(`/`)} className="bg-rose text-white py-2 px-4 rounded">
               Discover More <ArrowRight className="inline ml-2 w-4 h-4" />
             </Button>
           </div>

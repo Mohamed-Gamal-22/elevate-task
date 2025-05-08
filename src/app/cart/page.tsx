@@ -247,7 +247,7 @@ export default function Cart() {
           <span className="text-[#F82BA9] font-bold">${CartDetails.totalPriceAfterDiscount}</span>
         </div>
         <div className="text-end">
-          <Button className="text-white bg-[#F82BA9] py-[10px] px-[20px] rounded-[10px] my-8">
+          <Button onClick={()=>router.push(`/`)} className="text-white bg-[#F82BA9] py-[10px] px-[20px] rounded-[10px] my-8">
             Discover More <ArrowRight />
           </Button>
         </div>
