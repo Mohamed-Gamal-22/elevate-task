@@ -9,6 +9,7 @@ import { Product } from '@/types/product.type.'
 import style from "./favorite.module.css"
 import Link from 'next/link'
 import StarsRating from '../_components/stars-rating/StarsRating'
+import { useRouter } from 'next/navigation'
 
 export default function Favorite() {
   const context = useContext(CartContext)
@@ -20,12 +21,17 @@ export default function Favorite() {
   const { addToCard } = context
   const { data: session } = useSession()
   const [favorites, setFavorites] = useState<Product[]>([])
+  const router = useRouter()
 
   function checkLogin(id: string) {
     if (!session) {
       Swal.fire({
         title: "You Are Not Logged In Yet!",
-        icon: "info"
+        icon: "info",
+      }).then(() => {
+        setTimeout(()=>{
+          router.push("/")
+        },2500)
       })
       return
     }

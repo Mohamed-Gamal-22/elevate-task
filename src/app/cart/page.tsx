@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Image from 'next/image';
-import { ArrowLeft, ArrowRight, CircleX } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { CartContext } from '../context/CartContext';
-import Swal from 'sweetalert2';
-import { CartDetailsType, CartItem } from '@/types/cardDetails';
+import Image from "next/image";
+import { ArrowLeft, ArrowRight, CircleX } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { CartContext } from "../context/CartContext";
+import Swal from "sweetalert2";
+import { CartDetailsType, CartItem } from "@/types/cardDetails";
 
 export default function Cart() {
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const cartcontext = useContext(CartContext);
 
@@ -20,14 +20,15 @@ export default function Cart() {
     throw new Error("CartContext must be used within an AuthFormContextProvider");
   }
 
-  const { getLogedUserCard, updateProductQuantity, removeSpecificProduct, clearUserCard } = cartcontext
-
+  const { getLogedUserCard, updateProductQuantity, removeSpecificProduct, clearUserCard } = cartcontext;
 
   const [CartDetails, setCartDetails] = useState<CartDetailsType | null>(null);
+  const [loading, setLoading] = useState(true);
 
   async function prepareData() {
     const response = await getLogedUserCard();
     setCartDetails(response.cart);
+    setLoading(false);
   }
 
   async function updateQuantity(id: string, newCount: number) {
@@ -43,7 +44,7 @@ export default function Cart() {
         icon: "success",
         title: "Product Updated Successfully",
         showConfirmButton: true,
-        timer: 1500
+        timer: 1500,
       });
     }
   }
@@ -56,7 +57,7 @@ export default function Cart() {
         icon: "success",
         title: "Product Removed Successfully",
         showConfirmButton: true,
-        timer: 1500
+        timer: 1500,
       });
       prepareData();
     }
@@ -70,37 +71,30 @@ export default function Cart() {
         icon: "success",
         title: "Cart Cleared Successfully",
         showConfirmButton: true,
-        timer: 1500
+        timer: 1500,
       });
       prepareData();
     }
   }
 
   useEffect(() => {
-    const checkAuth = async () => {
-      if (!session) return;
-      const token = session?.token;
-      if (!token) {
-        Swal.fire({
-          title: "You Are Not Logged In yet !",
-          confirmButtonText: "Got It",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            Swal.fire("Please Login To See Your Cart !", "", "info");
-          }
-        });
-        setTimeout(() => {
-          router.push('/')
-        }, 2000);
-      } else {
-        await prepareData();
-      }
-    };
+    if (!session) {
+      Swal.fire({
+        title: "You Are Not Logged In!",
+        confirmButtonText: "Got It",
+      }).then(() => {
+        Swal.fire("Please Login To See Your Cart!", "", "info");
+      });
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+      return;
+    }
 
-    checkAuth();
+    prepareData();
   }, [session]);
 
-  if (status === "loading" || CartDetails === null) {
+  if (!session || loading || CartDetails === null) {
     return (
       <h1 className="bg-red-300 font-bold text-[30px] text-center w-[80%] mx-auto p-4 my-4">
         Loading...
@@ -143,12 +137,8 @@ export default function Cart() {
                       alt={item.product.title}
                     />
                   </td>
-                  <td className="px-6 py-4 font-semibold text-gray-900">
-                    {item.product.title}
-                  </td>
-                  <td className="px-6 py-4 font-semibold text-gray-900">
-                    ${item.price}
-                  </td>
+                  <td className="px-6 py-4 font-semibold text-gray-900">{item.product.title}</td>
+                  <td className="px-6 py-4 font-semibold text-gray-900">${item.price}</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <button
@@ -174,10 +164,7 @@ export default function Cart() {
                     ${item.price * item.quantity}
                   </td>
                   <td className="px-6 py-4">
-                    <CircleX
-                      onClick={() => removeItem(item.product._id)}
-                      className="text-[#F82BA9] cursor-pointer"
-                    />
+                    <CircleX onClick={() => removeItem(item.product._id)} className="text-[#F82BA9] cursor-pointer" />
                   </td>
                 </tr>
               ))}
@@ -187,34 +174,34 @@ export default function Cart() {
 
         <div className="flex items-center justify-between mt-6 flex-wrap gap-4">
           <form className="flex items-center w-full sm:w-auto relative">
-            <Input className="w-[300px] " placeholder="Enter Your Email" />
+            <Input className="w-[300px]" placeholder="Enter Your Email" />
             <Button className="text-white py-[10px] px-[20px] rounded-[30px] absolute end-[50px] top-0 md:end-[-50px] me-8">
               Apply coupon <ArrowRight />
             </Button>
           </form>
           <div className="flex flex-wrap gap-3">
-          <Button
-            onClick={() =>
-              router.push(
-                `/checkout?subtotal=${CartDetails?.totalPrice}&discount=${CartDetails?.discount}&shipping=0&total=${CartDetails?.totalPriceAfterDiscount}`
-              )
-            }
-            className="text-white bg-[#F82BA9] py-[20px] px-[20px] rounded-[10px]"
-          >
-            <ArrowLeft />
+            <Button
+              onClick={() =>
+                router.push(
+                  `/checkout?subtotal=${CartDetails?.totalPrice}&discount=${CartDetails?.discount}&shipping=0&total=${CartDetails?.totalPriceAfterDiscount}`
+                )
+              }
+              className="text-white bg-[#F82BA9] py-[20px] px-[20px] rounded-[10px]"
+            >
+              <ArrowLeft />
               Cash On Delivery !
-          </Button>
-          <Button
-            onClick={() =>
-              router.push(
-                `/checkout-online?subtotal=${CartDetails?.totalPrice}&discount=${CartDetails?.discount}&shipping=0&total=${CartDetails?.totalPriceAfterDiscount}`
-              )
-            }
-            className="text-white bg-[#F82BA9] py-[20px] px-[20px] rounded-[10px]"
-          >
-            <ArrowLeft />
-            Online Payment !
-          </Button>
+            </Button>
+            <Button
+              onClick={() =>
+                router.push(
+                  `/checkout-online?subtotal=${CartDetails?.totalPrice}&discount=${CartDetails?.discount}&shipping=0&total=${CartDetails?.totalPriceAfterDiscount}`
+                )
+              }
+              className="text-white bg-[#F82BA9] py-[20px] px-[20px] rounded-[10px]"
+            >
+              <ArrowLeft />
+              Online Payment !
+            </Button>
           </div>
         </div>
 
@@ -247,7 +234,7 @@ export default function Cart() {
           <span className="text-[#F82BA9] font-bold">${CartDetails.totalPriceAfterDiscount}</span>
         </div>
         <div className="text-end">
-          <Button onClick={()=>router.push(`/`)} className="text-white bg-[#F82BA9] py-[10px] px-[20px] rounded-[10px] my-8">
+          <Button onClick={() => router.push(`/`)} className="text-white bg-[#F82BA9] py-[10px] px-[20px] rounded-[10px] my-8">
             Discover More <ArrowRight />
           </Button>
         </div>
